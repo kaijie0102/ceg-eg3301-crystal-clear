@@ -7,13 +7,11 @@
 #define CUPSERVOPIN = 3; // continuous servo motor
 #define FANRELAYPIN = 22; // relay for fan
 
-// 01_Main
-// void sendStatus();
-// void sendMessage(const char *message);
-
 // 02_PowerControl
+void setupRelay();
 
 // 03_StepperMotorControl
+void setupStepperMotor();
 const int totalRevolutionsForMovement = 5; // Modify to increase duration of stepper movement
 const int stepsPerRevolution = 200; // Do not modify. Number of steps per output rotation
 Stepper railStepper(stepsPerRevolution, 4, 6, 5, 7); // Create Instance of Stepper library
@@ -26,6 +24,7 @@ static const unsigned long timeout = 7500; // loop ends after specified duration
 int servoCounter = 0;  
 
 // 05_Ui
+void setupUi();
 int buttonState = 0;        // Variable to hold the state of the button
 int lastButtonState = 0;    // Variable to store the last button state  
 
@@ -33,19 +32,10 @@ int lastButtonState = 0;    // Variable to store the last button state
 
 void setup() {
 
-  setupSerial();
-  // Relays setup 
-  pinMode(FANRELAYPIN, OUTPUT);
-  
-  // Button Setup
-  pinMode(BUTTONPIN, INPUT_PULLUP);  // Enable the internal pull-up resistor for the button  
-  
-  // Stepper Motor Setup
-  railStepper.setSpeed(60);// set the speed at 60 rpm
-  fanStepper.setSpeed(60);// set the speed at 60 rpm
-
-  // Servo Motor Setup
-  cupServo.attach(CUPSERVOPIN);
+  setupRelay();
+  setupStepperMotor();
+  setupServoMotor();
+  setupUi(); 
   
   // Initialize the serial port:
   Serial.begin(9600);

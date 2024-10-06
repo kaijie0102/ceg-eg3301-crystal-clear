@@ -1,5 +1,5 @@
 void setupRelay() {
-  // put your setup code here, to run once:
-
+  // Relays setup 
+  pinMode(FANRELAYPIN, OUTPUT);
 }
 

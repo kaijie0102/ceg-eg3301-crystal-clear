@@ -1,9 +1,6 @@
-void setup() {
-  // put your setup code here, to run once:
+void setupServoMotor() {
+  // Servo Motor Setup
+  cupServo.attach(CUPSERVOPIN);
 
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-
-}
