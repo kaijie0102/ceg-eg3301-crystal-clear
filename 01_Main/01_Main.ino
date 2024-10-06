@@ -31,6 +31,138 @@ int lastButtonState = 0;    // Variable to store the last button state
 
 // 06_Fan
 
+void setup() {
+
+  setupSerial();
+  // Relays setup 
+  pinMode(FANRELAYPIN, OUTPUT);
+  
+  // Button Setup
+  pinMode(BUTTONPIN, INPUT_PULLUP);  // Enable the internal pull-up resistor for the button  
+  
+  // Stepper Motor Setup
+  railStepper.setSpeed(60);// set the speed at 60 rpm
+  fanStepper.setSpeed(60);// set the speed at 60 rpm
+
+  // Servo Motor Setup
+  cupServo.attach(CUPSERVOPIN);
+  
+  // Initialize the serial port:
+  Serial.begin(9600);
+
+}
+
+void loop() {
+
+  //
+  // Read the button state
+  int reading = digitalRead(buttonPin);
+
+  // Debounce the button input
+  if (reading != lastButtonState) {
+    lastDebounceTime = millis();
+  }
+
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    if (reading != buttonState) {
+      buttonState = reading;
+
+      // If the button is pressed, change state
+      if (buttonState == HIGH) {
+        changeState();
+      }
+    }
+  }
+
+  lastButtonState = reading;
+
+  // Handle the current state
+  handleState();
+}
+
+// Function to handle the logic for each state
+void handleState() {
+  switch (currentState) {
+    case STATE_1:
+      // Handle logic for STATE_1
+      digitalWrite(ledPin, LOW);
+      break;
+    case STATE_2:
+      // Handle logic for STATE_2
+      digitalWrite(ledPin, HIGH);
+      break;
+    case STATE_3:
+      // Handle logic for STATE_3
+      // Additional code here
+      break;
+    case STATE_4:
+      // Handle logic for STATE_4
+      // Additional code here
+      break;
+    // Add more cases for STATE_5 to STATE_15
+    case STATE_15:
+      // Handle logic for STATE_15
+      // Additional code here
+      break;
+    default:
+      // Handle unknown state
+      currentState = STATE_1;  // Reset to initial state
+      break;
+  }
+}
+
+// Function to change the state
+void changeState() {
+  // Cycle through states: STATE_1 -> STATE_2 -> STATE_3 -> ... -> STATE_15 -> STATE_1
+  switch (currentState) {
+    case STATE_1:
+      currentState = STATE_2;
+      break;
+    case STATE_2:
+      currentState = STATE_3;
+      break;
+    case STATE_3:
+      currentState = STATE_4;
+      break;
+    case STATE_4:
+      currentState = STATE_5;
+      break;
+    case STATE_5:
+      currentState = STATE_6;
+      break;
+    case STATE_6:
+      currentState = STATE_7;
+      break;
+    case STATE_7:
+      currentState = STATE_8;
+      break;
+    case STATE_8:
+      currentState = STATE_9;
+      break;
+    case STATE_9:
+      currentState = STATE_10;
+      break;
+    case STATE_10:
+      currentState = STATE_11;
+      break;
+    case STATE_11:
+      currentState = STATE_12;
+      break;
+    case STATE_12:
+      currentState = STATE_13;
+      break;
+    case STATE_13:
+      currentState = STATE_14;
+      break;
+    case STATE_14:
+      currentState = STATE_15;
+      break;
+    case STATE_15:
+      currentState = STATE_1;
+      break;
+  }
+}
+
 
 
   
