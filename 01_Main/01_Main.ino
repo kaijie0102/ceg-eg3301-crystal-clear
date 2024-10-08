@@ -11,7 +11,7 @@
 enum State {
   STATE_1, STATE_2, STATE_3, STATE_4, STATE_5, STATE_6, STATE_7, STATE_8,
   STATE_9, STATE_10, STATE_11, STATE_12, STATE_13, STATE_14, STATE_15
-};
+};  
 State currentState = STATE_1;
 
 // 02_PowerControl
@@ -34,6 +34,7 @@ int servoCounter = 0;
 // 05_Ui
 void setupUi();
 void readButtonInput();
+int buttonReading = 1;      // Reading of button
 int buttonState = 1;        // Variable to hold the state of the button
 int lastButtonState = 1;    // Variable to store the last button state  
 const int debounceDelay = 50;  // Debouncing time in milliseconds
@@ -78,16 +79,14 @@ void handleState() {
     case STATE_1:
       // Handle logic for STATE_1
       Serial.println("State 1 - Await Button Press");
-      Serial.print("State Number: ");
-      Serial.println(currentState);
+  
       readButtonInput();
       // digitalWrite(ledPin, LOW);
       break;
     case STATE_2:
       // Handle logic for STATE_2
       Serial.println("State 2 - Wash Cycle Setup");
-      Serial.print("State Number: ");
-      Serial.println(currentState);
+      
       Serial.println("h stepper right");
       railStepper.step(stepsPerRevolution * totalRevolutionsForMovement);
       // delay(3000);
