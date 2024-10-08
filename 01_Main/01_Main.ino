@@ -7,22 +7,22 @@
 #define CUPSERVOPIN 3 // continuous servo motor
 #define FANRELAYPIN 22 // relay for fan
 
-#define RAIL_ENA_PIN1 36 // enable pins for rail stepper motor
-#define RAIL_ENA_PIN2 37
-#define RAIL_ENB_PIN1 34
-#define RAIL_ENB_PIN2 35
+#define RAIL_ENA_PIN1 32 // enable pins for rail stepper motor
+#define RAIL_ENA_PIN2 33
+#define RAIL_ENB_PIN1 30
+#define RAIL_ENB_PIN2 31
 
-#define FAN_ENA_PIN1 32 // enable pins for fan stepper motor
-#define FAN_ENA_PIN2 33
-#define FAN_ENB_PIN1 30
-#define FAN_ENB_PIN2 31
+#define FAN_ENA_PIN1 36 // enable pins for fan stepper motor
+#define FAN_ENA_PIN2 37
+#define FAN_ENB_PIN1 34
+#define FAN_ENB_PIN2 35
 
 // Define 15 states for the finite state machine
 enum State {
   STATE_1, STATE_2, STATE_3, STATE_4, STATE_5, STATE_6, STATE_7, STATE_8,
   STATE_9, STATE_10, STATE_11, STATE_12, STATE_13, STATE_14, STATE_15
 };
-State currentState = STATE_1;
+State currentState = STATE_4;
 
 // 02_PowerControl
 void setupRelay();
@@ -103,7 +103,7 @@ void handleState() {
       Serial.print("State Number: ");
       Serial.println(currentState);
       Serial.println("h stepper right");
-      railStepper.step(stepsPerRevolution * totalRevolutionsForMovement);
+      moveRailStepperMotorBackwards();
       // delay(3000);
 
       Serial.println("Servo start spinning");
@@ -126,14 +126,14 @@ void handleState() {
       Serial.println("State 4 - Drying Cycle Setup");
 
       // step one revolution in the other direction:
-      Serial.println("h stepper left");
-      railStepper.step(stepsPerRevolution * totalRevolutionsForMovement);
-      delay(3000);
+//      Serial.println("h stepper left");
+//      moveRailStepperMotorForward();
+//      delay(3000);
 
       
 
       Serial.println("v stepper up ");
-      fanStepper.step(-stepsPerRevolution * totalRevolutionsForMovement);
+      moveFanStepperMotorUp();
       delay(3000); 
 
       Serial.println("Servo start spinning");
@@ -146,7 +146,7 @@ void handleState() {
      
 
       Serial.println("v stepper down ");
-      fanStepper.step(stepsPerRevolution * totalRevolutionsForMovement);
+      moveFanStepperMotorDown();
       // delay(3000); 
       // Additional code here
       

@@ -1,3 +1,6 @@
+// Import libraries
+#include <Stepper.h>
+
 void setupRailStepperMotor() {
   // put your setup code here, to run once:
   // Stepper Motor Setup
@@ -28,9 +31,25 @@ void moveRailStepperMotorForward() {
 }
 
 void moveFanStepperMotorUp() {
+  digitalWrite(FAN_ENA_PIN1, HIGH);
+  digitalWrite(FAN_ENA_PIN2, HIGH);
+  digitalWrite(FAN_ENB_PIN1, HIGH);
+  digitalWrite(FAN_ENB_PIN2, HIGH);
   fanStepper.step(-stepsPerRevolution * totalRevolutionsForMovement);
+  digitalWrite(FAN_ENA_PIN1, LOW);
+  digitalWrite(FAN_ENA_PIN2, LOW);
+  digitalWrite(FAN_ENB_PIN1, LOW);
+  digitalWrite(FAN_ENB_PIN2, LOW);
 }
 
 void moveFanStepperMotorDown() {
+  digitalWrite(FAN_ENA_PIN1, HIGH);
+  digitalWrite(FAN_ENA_PIN2, HIGH);
+  digitalWrite(FAN_ENB_PIN1, HIGH);
+  digitalWrite(FAN_ENB_PIN2, HIGH);
   fanStepper.step(stepsPerRevolution * totalRevolutionsForMovement);
+  digitalWrite(FAN_ENA_PIN1, LOW);
+  digitalWrite(FAN_ENA_PIN2, LOW);
+  digitalWrite(FAN_ENB_PIN1, LOW);
+  digitalWrite(FAN_ENB_PIN2, LOW);
 }
