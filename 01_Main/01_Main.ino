@@ -23,6 +23,10 @@ enum State {
   STATE_9, STATE_10, STATE_11, STATE_12, STATE_13, STATE_14, STATE_15
 };  
 State currentState = STATE_1;
+void executeState1();
+void executeState2();
+void executeState3();
+void executeState4();
 
 // 02_PowerControl
 void setupRelay();
