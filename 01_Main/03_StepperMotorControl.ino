@@ -1,6 +1,3 @@
-const int totalRevolutionsForMovement = 5; // Modify to increase duration of stepper movement
-const int stepsPerRevolution = 200; // Do not modify. Number of steps per output rotation
-
 void setupRailStepperMotor() {
   // put your setup code here, to run once:
   // Stepper Motor Setup

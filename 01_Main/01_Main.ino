@@ -3,19 +3,19 @@
 #include <Servo.h>
 
 // Define Arduino Pins
-#define BUTTONPIN 2;    // Pin where the push button is connected
-#define CUPSERVOPIN = 3; // continuous servo motor
-#define FANRELAYPIN = 22; // relay for fan
+#define BUTTONPIN 2    // Pin where the push button is connected
+#define CUPSERVOPIN 3 // continuous servo motor
+#define FANRELAYPIN 22 // relay for fan
 
-#define RAIL_ENA_PIN1 = 36; // enable pins for rail stepper motor
-#define RAIL_ENA_PIN2 = 37;
-#define RAIL_ENB_PIN1 = 34;
-#define RAIL_ENB_PIN2 = 35;
+#define RAIL_ENA_PIN1 36 // enable pins for rail stepper motor
+#define RAIL_ENA_PIN2 37
+#define RAIL_ENB_PIN1 34
+#define RAIL_ENB_PIN2 35
 
-#define FAN_ENA_PIN1 = 32; // enable pins for fan stepper motor
-#define FAN_ENA_PIN2 = 33;
-#define FAN_ENB_PIN1 = 30;
-#define FAN_ENB_PIN2 = 31;
+#define FAN_ENA_PIN1 32 // enable pins for fan stepper motor
+#define FAN_ENA_PIN2 33
+#define FAN_ENB_PIN1 30
+#define FAN_ENB_PIN2 31
 
 // Define 15 states for the finite state machine
 enum State {
@@ -33,6 +33,8 @@ void moveRailStepperMotorBackwards();
 void moveRailStepperMotorForward();
 void moveFanStepperMotorUp();
 void moveFanStepperMotorDown();
+const int totalRevolutionsForMovement = 5; // Modify to increase duration of stepper movement
+const int stepsPerRevolution = 200; // Do not modify. Number of steps per output rotation
 Stepper railStepper(stepsPerRevolution, 4, 6, 5, 7); // Create Instance of Stepper library
 Stepper fanStepper(stepsPerRevolution, 8, 9, 10, 11); // Create Instance of Stepper library
 
@@ -66,7 +68,7 @@ void setup() {
 }
 
 void loop() {
-  readButtonInput();
+  //readButtonInput();
   // buttonState = digitalRead(BUTTONPIN); // Read the current state of the button (LOW when pressed, HIGH when not pressed)
     
   // // Check if the button state has changed (button press detected)
@@ -77,24 +79,24 @@ void loop() {
   //     Serial.println("Button Pressed");
 
   // Move to wash compartment. step one revolution in one direction:
-  Serial.println("h stepper backwards");
-  moveRailStepperMotorBackwards();
-  delay(3000);
-
-  Serial.println("Servo start spinning");
-  timer = millis();
-  while ((millis()-timer) < timeout) {
-    // Serial.println(servoCounter);
-    cupServo.write(60);
-  }
-  cupServo.write(90);
-  delay(3000); // washing starts
-
-
-  // step one revolution in the other direction:
-  Serial.println("h stepper forward");
-  moveRailStepperMotorForward();
-  delay(3000);
+//  Serial.println("h stepper backwards");
+//  moveRailStepperMotorBackwards();
+//  delay(3000);
+//
+//  Serial.println("Servo start spinning");
+//  timer = millis();
+//  while ((millis()-timer) < timeout) {
+//    // Serial.println(servoCounter);
+//    cupServo.write(60);
+//  }
+//  cupServo.write(90);
+//  delay(3000); // washing starts
+//
+//
+//  // step one revolution in the other direction:
+//  Serial.println("h stepper forward");
+//  moveRailStepperMotorForward();
+//  delay(3000);
 
   
 
@@ -102,31 +104,32 @@ void loop() {
   moveFanStepperMotorUp();
   delay(3000); 
 
-  Serial.println("Servo start spinning");
-  timer = millis();
-  while ((millis()-timer) < timeout) {
-    // Serial.println(servoCounter);
-    cupServo.write(60);
-  }
-  
-  cupServo.write(90);
-  delay(3000); // washing starts
-
-  // fan start
-  digitalWrite(FANRELAYPIN, HIGH);
-  delay(5000); // fan blows for 5 seconds
-
-  // cup stop, fan stop
-  digitalWrite(FANRELAYPIN, LOW);
+//  Serial.println("Servo start spinning");
+//  timer = millis();
+//  while ((millis()-timer) < timeout) {
+//    // Serial.println(servoCounter);
+//    cupServo.write(60);
+//  }
+//  
+//  cupServo.write(90);
+//  delay(3000); // washing starts
+//
+//  // fan start
+//  digitalWrite(FANRELAYPIN, HIGH);
+//  delay(5000); // fan blows for 5 seconds
+//
+//  // cup stop, fan stop
+//  digitalWrite(FANRELAYPIN, LOW);
 
   Serial.println("v stepper down ");
   moveFanStepperMotorDown();
   delay(3000); 
 
   // Handle the current state
-  handleState();
+  //handleState();
 }
 
+/*
 // Function to handle the logic for each state
 void handleState() {
   switch (currentState) {
@@ -211,7 +214,7 @@ void changeState() {
 }
 
 
-
+*/
   
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /*
