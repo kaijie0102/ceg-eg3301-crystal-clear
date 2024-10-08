@@ -50,6 +50,12 @@ void readButtonInput();
 
 // 06_Fan
 
+// 07_StateControl
+void executeState1();
+void executeState2();
+void executeState3();
+void executeState4();
+
 void setup() {
 
   setupRelay();
@@ -80,85 +86,23 @@ void handleState() {
       // Handle logic for STATE_1
       Serial.println("State 1 - Await Button Press");
 
-      readButtonInput();
-      
+      executeState1();
       break;
     case STATE_2:
-      // Handle logic for STATE_2
-      Serial.println("State 2 - Wash Cycle Setup");
-      
-      Serial.println("h stepper right");
-      moveRailStepperMotorBackwards();
-      // delay(3000);
-
-      Serial.println("Servo start spinning");
-      // timer = millis();
-      // while ((millis()-timer) < timeout) {
-      //   // Serial.println(servoCounter);
-      //   cupServo.write(60);
-      // }
-      cupServoStart();
-      delay(3000);
-      cupServoStop();
-      
+      executeState2();
       break;
     case STATE_3:
-      Serial.println("State 3 - Start Wash");
-      delay(3000); // washing starts
-  
+      executeState3();
       break;
     case STATE_4:
-      Serial.println("State 4 - Drying Cycle Setup");
-
-      // step one revolution in the other direction:
-      Serial.println("h stepper left");
-      moveRailStepperMotorForward();
-      delay(3000);
-
-      
-
-      Serial.println("v stepper up ");
-      moveFanStepperMotorUp();
-      delay(3000); 
-
-      Serial.println("Servo start spinning");
-      timer = millis();
-      // while ((millis()-timer) < timeout) {
-      //   // Serial.println(servoCounter);
-      //   cupServo.write(60);
-      // }
-      
-     
-
-      Serial.println("v stepper down ");
-      moveFanStepperMotorDown();
-      // delay(3000); 
-      // Additional code here
-      
+      executeState4();
       break;
-    // Add more cases for STATE_5 to STATE_15
     case STATE_5:
-      Serial.println("State 5 - Drying Cycle");
-      // fan start
-      Serial.println("Fan ON");
-      digitalWrite(FANRELAYPIN, HIGH);
-      // delay(5000); // fan blows for 5 seconds
-
-      cupServo.write(90);
-
-
-      // cup stop, fan stop
-      digitalWrite(FANRELAYPIN, LOW);
-      Serial.println("Fan OFF");
-      Serial.print("State Number: ");
-      Serial.println(currentState);
       // Handle logic for STATE_15
-      
       currentState = STATE_15;  // Reset to initial state
       break;
     case STATE_6:
       // Handle logic for STATE_15
-      
       currentState = STATE_15;  // Reset to initial state
       break;
     case STATE_7:
