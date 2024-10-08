@@ -34,10 +34,6 @@ void moveRailStepperMotorBackwards();
 void moveRailStepperMotorForward();
 void moveFanStepperMotorUp();
 void moveFanStepperMotorDown();
-const int totalRevolutionsForMovement = 5; // Modify to increase duration of stepper movement
-const int stepsPerRevolution = 200; // Do not modify. Number of steps per output rotation
-Stepper railStepper(stepsPerRevolution, 4, 6, 5, 7); // Create Instance of Stepper library
-Stepper fanStepper(stepsPerRevolution, 8, 9, 10, 11); // Create Instance of Stepper library
 
 // 03_ServoMotorControl
 void setupServoMotor();
@@ -126,9 +122,9 @@ void handleState() {
       Serial.println("State 4 - Drying Cycle Setup");
 
       // step one revolution in the other direction:
-//      Serial.println("h stepper left");
-//      moveRailStepperMotorForward();
-//      delay(3000);
+      Serial.println("h stepper left");
+      moveRailStepperMotorForward();
+      delay(3000);
 
       
 
