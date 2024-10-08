@@ -3,11 +3,16 @@ void setupUi() {
   pinMode(BUTTONPIN, INPUT_PULLUP);  // Enable the internal pull-up resistor for the button  
 }
 
-void readButtonInput(){
-
+void readButtonInput() {
+  Serial.println("Press Button to Start");
   // Wait until button is pressed and debounced
+  Serial.print("Button state ");
+  Serial.println(buttonState);
+
+  Serial.print("Last Button state ");
+  Serial.println(lastButtonState);
   while (true) {
-    int reading = digitalRead(BUTTONPIN);
+    int reading = digitalRead(BUTTONPIN); // Active Low 
 
     // If the button state has changed (i.e., different from last read)
     if (reading != lastButtonState) {
@@ -22,7 +27,7 @@ void readButtonInput(){
 
         // Button is pressed
         if (buttonState == LOW) {
-          Serial.println("Button Pressed");
+          Serial.println("Starting Clean Cycle");
           return;  // Exit the function once the button press is confirmed
         }
       }
