@@ -79,7 +79,7 @@ void handleState() {
     case STATE_1:
       // Handle logic for STATE_1
       Serial.println("State 1 - Await Button Press");
-  
+
       readButtonInput();
       
       break;
