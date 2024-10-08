@@ -26,6 +26,8 @@ Stepper fanStepper(stepsPerRevolution, 8, 9, 10, 11); // Create Instance of Step
 
 // 03_ServoMotorControl
 void setupServoMotor();
+void cupServoStart();
+void cupServoStop();
 Servo cupServo;  // create continuous servo object
 unsigned long timer; 
 static const unsigned long timeout = 7500; // loop ends after specified duration
@@ -34,7 +36,6 @@ int servoCounter = 0;
 // 05_Ui
 void setupUi();
 void readButtonInput();
-
 
 // 06_Fan
 
@@ -74,18 +75,19 @@ void handleState() {
       Serial.println("State 2 - Wash Cycle Setup");
       
       Serial.println("h stepper right");
-      railStepper.step(stepsPerRevolution * totalRevolutionsForMovement);
+      // railStepper.step(stepsPerRevolution * totalRevolutionsForMovement);
       // delay(3000);
 
       Serial.println("Servo start spinning");
-      timer = millis();
+      // timer = millis();
       // while ((millis()-timer) < timeout) {
       //   // Serial.println(servoCounter);
       //   cupServo.write(60);
       // }
+      cupServo.write(60);
+      delay(3000);
       cupServo.write(90);
       
-      // digitalWrite(ledPin, HIGH);
       break;
     case STATE_3:
       Serial.println("State 3 - Start Wash");

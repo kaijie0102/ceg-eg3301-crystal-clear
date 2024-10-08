@@ -29,7 +29,7 @@ void readButtonInput() {
 
         // Button is pressed
         if (buttonState == LOW) {
-          Serial.println("Starting Clean Cycle");
+          Serial.println("Button Pressed. Starting Clean Cycle");
           return;  // Exit the function once the button press is confirmed
         }
       }
