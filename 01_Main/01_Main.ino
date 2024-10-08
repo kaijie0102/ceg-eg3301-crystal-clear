@@ -7,6 +7,16 @@
 #define CUPSERVOPIN = 3; // continuous servo motor
 #define FANRELAYPIN = 22; // relay for fan
 
+#define RAIL_ENA_PIN1 = 36; // enable pins for rail stepper motor
+#define RAIL_ENA_PIN2 = 37;
+#define RAIL_ENB_PIN1 = 34;
+#define RAIL_ENB_PIN2 = 35;
+
+#define FAN_ENA_PIN1 = 32; // enable pins for fan stepper motor
+#define FAN_ENA_PIN2 = 33;
+#define FAN_ENB_PIN1 = 30;
+#define FAN_ENB_PIN2 = 31;
+
 // Define 15 states for the finite state machine
 enum State {
   STATE_1, STATE_2, STATE_3, STATE_4, STATE_5, STATE_6, STATE_7, STATE_8,
@@ -17,9 +27,12 @@ enum State {
 void setupRelay();
 
 // 03_StepperMotorControl
-void setupStepperMotor();
-const int totalRevolutionsForMovement = 5; // Modify to increase duration of stepper movement
-const int stepsPerRevolution = 200; // Do not modify. Number of steps per output rotation
+void setupRailStepperMotor();
+void setupFanStepperMotor();
+void moveRailStepperMotorBackwards();
+void moveRailStepperMotorForward();
+void moveFanStepperMotorUp();
+void moveFanStepperMotorDown();
 Stepper railStepper(stepsPerRevolution, 4, 6, 5, 7); // Create Instance of Stepper library
 Stepper fanStepper(stepsPerRevolution, 8, 9, 10, 11); // Create Instance of Stepper library
 
@@ -42,7 +55,8 @@ unsigned long lastDebounceTime = 0;  // Last time the button state changed
 void setup() {
 
   setupRelay();
-  setupStepperMotor();
+  setupRailStepperMotor();
+  setupFanStepperMotor();
   setupServoMotor();
   setupUi(); 
   
@@ -63,8 +77,8 @@ void loop() {
   //     Serial.println("Button Pressed");
 
   // Move to wash compartment. step one revolution in one direction:
-  Serial.println("h stepper right");
-  railStepper.step(stepsPerRevolution * totalRevolutionsForMovement);
+  Serial.println("h stepper backwards");
+  moveRailStepperMotorBackwards();
   delay(3000);
 
   Serial.println("Servo start spinning");
@@ -78,14 +92,14 @@ void loop() {
 
 
   // step one revolution in the other direction:
-  Serial.println("h stepper left");
-  railStepper.step(stepsPerRevolution * totalRevolutionsForMovement);
+  Serial.println("h stepper forward");
+  moveRailStepperMotorForward();
   delay(3000);
 
   
 
   Serial.println("v stepper up ");
-  fanStepper.step(-stepsPerRevolution * totalRevolutionsForMovement);
+  moveFanStepperMotorUp();
   delay(3000); 
 
   Serial.println("Servo start spinning");
@@ -106,12 +120,8 @@ void loop() {
   digitalWrite(FANRELAYPIN, LOW);
 
   Serial.println("v stepper down ");
-  fanStepper.step(stepsPerRevolution * totalRevolutionsForMovement);
+  moveFanStepperMotorDown();
   delay(3000); 
-
-
-
-  
 
   // Handle the current state
   handleState();
