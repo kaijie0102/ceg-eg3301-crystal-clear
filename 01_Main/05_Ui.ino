@@ -1,3 +1,9 @@
+// Set up variables
+int buttonState = 1;        // Variable to hold the state of the button
+int lastButtonState = 1;    // Variable to store the last button state  
+const int debounceDelay = 50;  // Debouncing time in milliseconds
+unsigned long lastDebounceTime = 0;  // Last time the button state changed
+
 void setupUi() {
   // Button Setup
   pinMode(BUTTONPIN, INPUT_PULLUP);  // Enable the internal pull-up resistor for the button  
@@ -5,17 +11,13 @@ void setupUi() {
 
 void readButtonInput() {
   Serial.println("Press Button to Start");
-  // Wait until button is pressed and debounced
-  Serial.print("Button state ");
-  Serial.println(buttonState);
 
-  Serial.print("Last Button state ");
-  Serial.println(lastButtonState);
+  // Wait until button is pressed and debounced
   while (true) {
     int reading = digitalRead(BUTTONPIN); // Active Low 
 
     // If the button state has changed (i.e., different from last read)
-    if (reading != lastButtonState) {
+    if (reading != lastButtonState) { // if reading become 0
       lastDebounceTime = millis();  // Reset the debounce timer
     }
 
@@ -27,7 +29,7 @@ void readButtonInput() {
 
         // Button is pressed
         if (buttonState == LOW) {
-          Serial.println("Starting Clean Cycle");
+          Serial.println("Button Pressed. Starting Clean Cycle");
           return;  // Exit the function once the button press is confirmed
         }
       }
@@ -35,36 +37,6 @@ void readButtonInput() {
 
     lastButtonState = reading;  // Save the reading for the next loop
   }
-    /*
-  // Check if the button state has changed (button press detected)
-  if (buttonState != lastButtonState) {
-    if (buttonState == LOW) {
-      buttonState = 0;
-      // Button is pressed
-      Serial.println("Button Pressed");
-    }
-
-    // Save the current button state as the last state for the next iteration
-    lastButtonState = buttonState;
-  }
-
-  // tempalte debouncing
-  if (reading != lastButtonState) {
-    lastDebounceTime = millis();
-  }
-
-  if ((millis() - lastDebounceTime) > debounceDelay) {
-    if (reading != buttonState) {
-      buttonState = reading;
-
-      // If the button is pressed, change state
-      if (buttonState == HIGH) {
-        changeState();
-      }
-    }
-  }
-
-  lastButtonState = reading;
-  */
+  
 }
 
