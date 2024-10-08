@@ -68,7 +68,7 @@ void setup() {
 }
 
 void loop() {
-  //readButtonInput();
+  readButtonInput();
   // buttonState = digitalRead(BUTTONPIN); // Read the current state of the button (LOW when pressed, HIGH when not pressed)
     
   // // Check if the button state has changed (button press detected)
@@ -79,24 +79,24 @@ void loop() {
   //     Serial.println("Button Pressed");
 
   // Move to wash compartment. step one revolution in one direction:
-//  Serial.println("h stepper backwards");
-//  moveRailStepperMotorBackwards();
-//  delay(3000);
-//
-//  Serial.println("Servo start spinning");
-//  timer = millis();
-//  while ((millis()-timer) < timeout) {
-//    // Serial.println(servoCounter);
-//    cupServo.write(60);
-//  }
-//  cupServo.write(90);
-//  delay(3000); // washing starts
-//
-//
-//  // step one revolution in the other direction:
-//  Serial.println("h stepper forward");
-//  moveRailStepperMotorForward();
-//  delay(3000);
+  Serial.println("h stepper backwards");
+  moveRailStepperMotorBackwards();
+  delay(3000);
+
+  Serial.println("Servo start spinning");
+  timer = millis();
+  while ((millis()-timer) < timeout) {
+    // Serial.println(servoCounter);
+    cupServo.write(60);
+  }
+  cupServo.write(90);
+  delay(3000); // washing starts
+
+
+  // step one revolution in the other direction:
+  Serial.println("h stepper forward");
+  moveRailStepperMotorForward();
+  delay(3000);
 
   
 
@@ -104,32 +104,32 @@ void loop() {
   moveFanStepperMotorUp();
   delay(3000); 
 
-//  Serial.println("Servo start spinning");
-//  timer = millis();
-//  while ((millis()-timer) < timeout) {
-//    // Serial.println(servoCounter);
-//    cupServo.write(60);
-//  }
-//  
-//  cupServo.write(90);
-//  delay(3000); // washing starts
-//
-//  // fan start
-//  digitalWrite(FANRELAYPIN, HIGH);
-//  delay(5000); // fan blows for 5 seconds
-//
-//  // cup stop, fan stop
-//  digitalWrite(FANRELAYPIN, LOW);
+  Serial.println("Servo start spinning");
+  timer = millis();
+  while ((millis()-timer) < timeout) {
+    // Serial.println(servoCounter);
+    cupServo.write(60);
+  }
+  
+  cupServo.write(90);
+  delay(3000); // washing starts
+
+  // fan start
+  digitalWrite(FANRELAYPIN, HIGH);
+  delay(5000); // fan blows for 5 seconds
+
+  // cup stop, fan stop
+  digitalWrite(FANRELAYPIN, LOW);
 
   Serial.println("v stepper down ");
   moveFanStepperMotorDown();
   delay(3000); 
 
   // Handle the current state
-  //handleState();
+  handleState();
 }
 
-/*
+
 // Function to handle the logic for each state
 void handleState() {
   switch (currentState) {
@@ -214,7 +214,7 @@ void changeState() {
 }
 
 
-*/
+
   
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /*
