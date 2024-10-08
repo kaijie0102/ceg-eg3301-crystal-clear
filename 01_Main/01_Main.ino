@@ -84,9 +84,9 @@ void handleState() {
       //   // Serial.println(servoCounter);
       //   cupServo.write(60);
       // }
-      cupServo.write(60);
+      cupServoStart();
       delay(3000);
-      cupServo.write(90);
+      cupServoStop();
       
       break;
     case STATE_3:
