@@ -1,4 +1,4 @@
-void setupValve() {
+void setupSolenoidValve() {
   // Solenoid valve setup
   pinMode(VALVE1RELAYPIN, OUTPUT);
   pinMode(VALVE2RELAYPIN, OUTPUT);
