@@ -43,7 +43,7 @@ void moveRailStepperMotorForward() {
 }
 
 void moveFanStepperMotorUp() {
-  digitalWrite(FAN_DIR_PIN, HIGH);
+  digitalWrite(FAN_DIR_PIN, LOW);
   digitalWrite(FAN_SLEEP_PIN, HIGH);
   for(int x = 0; x < CUP_HEIGHT; x++)
 	{
@@ -56,7 +56,7 @@ void moveFanStepperMotorUp() {
 }
 
 void moveFanStepperMotorDown() {
-  digitalWrite(FAN_DIR_PIN, LOW);
+  digitalWrite(FAN_DIR_PIN, HIGH);
   digitalWrite(FAN_SLEEP_PIN, HIGH);
   for(int x = 0; x < CUP_HEIGHT; x++)
 	{
