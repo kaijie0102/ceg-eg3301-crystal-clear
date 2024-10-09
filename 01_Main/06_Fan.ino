@@ -1,4 +1,11 @@
+const int INTERNAL_FAN_ON_TIME = 3000;
+
 void startInternalFans() {
-  // put your setup code here, to run once:
   digitalWrite(FANRELAYPIN, HIGH);
+  delay(INTERNAL_FAN_ON_TIME);
 }
+
+void stopInternalFans() {
+  digitalWrite(FANRELAYPIN, LOW);
+}
+

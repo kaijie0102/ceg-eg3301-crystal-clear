@@ -7,7 +7,7 @@ void executeState1() {
         
     Serial.println("h stepper backwards");
     moveRailStepperMotorBackwards();
-    
+
 }
 
 
@@ -15,7 +15,7 @@ void executeState1() {
 void executeState2() {
     Serial.println("STATE 2a - First wash cycle");
     Serial.println("Solenoid open");
-    // Additional code here
+    
     
     Serial.println("Servo start spinning");
     cupServoStart();
@@ -23,13 +23,13 @@ void executeState2() {
     cupServoStop();
   
     Serial.println("Solenoid close");
-    // Additional code here
+    
 
     Serial.println("STATE 2b - Second wash cycle");
-    // Additional code here
+    
 
     Serial.println("STATE 2c - Third wash cycle");
-    // Additional code here
+    
 }
 
 // Dry Setup
@@ -47,7 +47,6 @@ void executeState3() {
     moveFanStepperMotorUp();
     delay(3000); 
   
-    Serial.println("Servo start spinning");
 }
 
 //Dry
@@ -55,11 +54,15 @@ void executeState4() {
     Serial.println("STATE 3a - Drying Process");
 
     Serial.println("Fan ON");
-    digitalWrite(FANRELAYPIN, HIGH);
-    // delay(5000); // fan blows for 5 seconds
+    startInternalFans();
 
     Serial.println("Cup servo to rotate");
-    cupServo.write(90);
+    cupServoStart();
+    delay(3000);
+    // cup stop, fan stop
+    stopInternalFans();
+    Serial.println("Fan OFF");
+    cupServoStop();
     
     Serial.println("Fan stepper move down ");
     moveFanStepperMotorDown();
@@ -67,9 +70,6 @@ void executeState4() {
     // Additional code here
 
     Serial.println("STATE 3b - End of Drying Process");
-    // cup stop, fan stop
-    digitalWrite(FANRELAYPIN, LOW);
-    Serial.println("Fan OFF");
     Serial.print("State Number: ");
     Serial.println(currentState);
   

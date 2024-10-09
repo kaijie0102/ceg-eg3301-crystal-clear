@@ -1,6 +1,7 @@
 // Import libraries
 #include <Stepper.h>
 #include <Servo.h>
+Servo cupServo;  // create continuous servo object
 
 // Define Arduino Pins
 #define BUTTONPIN 2    // Pin where the push button is connected
@@ -37,16 +38,14 @@ void moveFanStepperMotorDown();
 void setupServoMotor();
 void cupServoStart();
 void cupServoStop();
-Servo cupServo;  // create continuous servo object
-unsigned long timer; 
-static const unsigned long timeout = 7500; // loop ends after specified duration
-int servoCounter = 0;  
 
 // 05_Ui
 void setupUi();
 void readButtonInput();
 
 // 06_Fan
+void startInternalFans();
+void stopInternalFans();
 
 // 07_StateControl
 void executeState1();
@@ -72,7 +71,6 @@ void setup() {
 }
 
 void loop() {
-  // Handle the current state
   handleState();
 }
 
