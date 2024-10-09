@@ -1,5 +1,5 @@
 // Wash Setup
-void executeState1 {
+void executeState1() {
     Serial.println("STATE 1a - Await Button Press");
     readButtonInput();
   
@@ -11,7 +11,7 @@ void executeState1 {
 
 
 // Wash 
-void executeState2 {
+void executeState2() {
     Serial.println("STATE 2a - First wash cycle");
     Serial.println("Solenoid open");
     // Additional code here
@@ -32,7 +32,7 @@ void executeState2 {
 }
 
 // Dry Setup
-void executeState3 {
+void executeState3() {
     Serial.println("STATE 3 - Drying Cycle Setup");
   
     // step one revolution in the other direction:
@@ -50,7 +50,7 @@ void executeState3 {
 }
 
 //Dry
-void executeState4 {
+void executeState4() {
     Serial.println("STATE 3a - Drying Process");
 
     Serial.println("Fan ON");
