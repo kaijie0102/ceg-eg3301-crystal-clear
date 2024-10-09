@@ -12,9 +12,29 @@
 // rated voltage 12V //////////
 ///////////////////////////////
 
+#define RAIL_ENA_PIN1 32 // enable pins for rail stepper motor
+#define RAIL_ENA_PIN2 33
+#define RAIL_ENB_PIN1 30
+#define RAIL_ENB_PIN2 31
+#define RAIL_PIN1 4
+#define RAIL_PIN2 6
+#define RAIL_PIN3 5
+#define RAIL_PIN4 7
+
+#define FAN_ENA_PIN1 36 // enable pins for fan stepper motor
+#define FAN_ENA_PIN2 37
+#define FAN_ENB_PIN1 34
+#define FAN_ENB_PIN2 35
+#define FAN1_PIN1 8
+#define FAN1_PIN2 9 
+#define FAN1_PIN3 10
+#define FAN1_PIN4 11
+
 
 const int stepsPerRevolution = 200; 
+const int totalRevolutionsForMovement = 5;
 Stepper myStepper(stepsPerRevolution, 4, 6, 5, 7); // rail stepper
+// Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11); // fan stepper
 
 
 void setup()
@@ -27,11 +47,28 @@ void loop()
 {
   // one revolution clockwise
   Serial.println("clockwise");
-  myStepper.step(stepsPerRevolution); 
+  digitalWrite(RAIL_ENA_PIN1, HIGH);
+  digitalWrite(RAIL_ENA_PIN2, HIGH);
+  digitalWrite(RAIL_ENB_PIN1, HIGH);
+  digitalWrite(RAIL_ENB_PIN2, HIGH);
+  // digitalWrite(FAN_ENA_PIN1, HIGH);
+  // digitalWrite(FAN_ENA_PIN2, HIGH);
+  // digitalWrite(FAN_ENB_PIN1, HIGH);
+  // digitalWrite(FAN_ENB_PIN2, HIGH);
+  myStepper.step(stepsPerRevolution*totalRevolutionsForMovement); 
+  
   delay(500);
 
   // one revolution anticlockwise
   Serial.println("counterclockwise");
-  myStepper.step(-stepsPerRevolution);
-  delay(500);
+  myStepper.step(-stepsPerRevolution*totalRevolutionsForMovement);
+  digitalWrite(RAIL_ENA_PIN1, LOW);
+  digitalWrite(RAIL_ENA_PIN2, LOW);
+  digitalWrite(RAIL_ENB_PIN1, LOW);
+  digitalWrite(RAIL_ENB_PIN2, LOW);
+  // digitalWrite(FAN_ENA_PIN1, LOW);
+  // digitalWrite(FAN_ENA_PIN2, LOW);
+  // digitalWrite(FAN_ENB_PIN1, LOW);
+  // digitalWrite(FAN_ENB_PIN2, LOW);
+  delay(10000);
 }

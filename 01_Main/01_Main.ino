@@ -11,22 +11,26 @@
 #define RAIL_ENA_PIN2 33
 #define RAIL_ENB_PIN1 30
 #define RAIL_ENB_PIN2 31
+#define RAIL_PIN1 4
+#define RAIL_PIN2 6
+#define RAIL_PIN3 5
+#define RAIL_PIN4 7
 
 #define FAN_ENA_PIN1 36 // enable pins for fan stepper motor
 #define FAN_ENA_PIN2 37
 #define FAN_ENB_PIN1 34
 #define FAN_ENB_PIN2 35
+#define FAN1_PIN1 8
+#define FAN1_PIN2 9 
+#define FAN1_PIN3 10
+#define FAN1_PIN4 11
 
 // Define 15 states for the finite state machine
 enum State {
   STATE_1, STATE_2, STATE_3, STATE_4, STATE_5, STATE_6, STATE_7, STATE_8,
   STATE_9, STATE_10, STATE_11, STATE_12, STATE_13, STATE_14, STATE_15
 };  
-State currentState = STATE_1;
-void executeState1();
-void executeState2();
-void executeState3();
-void executeState4();
+State currentState = STATE_3;
 
 // 02_PowerControl
 void setupRelay();
@@ -54,6 +58,12 @@ void readButtonInput();
 
 // 06_Fan
 
+// 07_StateControl
+void executeState1();
+void executeState2();
+void executeState3();
+void executeState4();
+
 void setup() {
 
   setupRelay();
@@ -80,10 +90,10 @@ void loop() {
 // Function to handle the logic for each state
 void handleState() {
   switch (currentState) {
-    case STATE_1:
+    case STATE_1: // Start and setup 
       executeState1();
       break;
-    case STATE_2:
+    case STATE_2: // 
       executeState2();
       break;
     case STATE_3:

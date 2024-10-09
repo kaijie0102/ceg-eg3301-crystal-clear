@@ -1,7 +1,9 @@
 const int totalRevolutionsForMovement = 5; // Modify to increase duration of stepper movement
 const int stepsPerRevolution = 200; // Do not modify. Number of steps per output rotation
-Stepper railStepper(stepsPerRevolution, 4, 6, 5, 7); // Create Instance of Stepper library
-Stepper fanStepper(stepsPerRevolution, 8, 9, 10, 11); // Create Instance of Stepper library
+// Stepper railStepper(stepsPerRevolution, 4, 6, 5, 7); // Create Instance of Stepper library
+// Stepper fanStepper(stepsPerRevolution, 8, 9, 10, 11); // Create Instance of Stepper library
+Stepper railStepper(stepsPerRevolution, RAIL_PIN1, RAIL_PIN2, RAIL_PIN3, RAIL_PIN4); // Create Instance of Stepper library
+Stepper fanStepper(stepsPerRevolution, FAN1_PIN1, FAN1_PIN2, FAN1_PIN3, FAN1_PIN4); // Create Instance of Stepper library
 
 void setupRailStepperMotor() {
   // put your setup code here, to run once:
