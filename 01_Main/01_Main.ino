@@ -7,9 +7,9 @@
 #define CUPSERVOPIN 3 // continuous servo motor
 #define FANRELAYPIN 22 // relay for fan
 
-#define RAIL_DIR_PIN 4
-#define RAIL_STEP_PIN 5
-#define RAIL_SLEEP_PIN 6
+#define RAIL_DIR_PIN 5
+#define RAIL_STEP_PIN 6
+#define RAIL_SLEEP_PIN 7
 
 #define FAN_DIR_PIN 8
 #define FAN_STEP_PIN 9 
