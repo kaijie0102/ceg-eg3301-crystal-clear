@@ -5,7 +5,6 @@
 const int dirPin = 2;
 const int stepPin = 3;
 const int sleepPin = 4;
-const int enablePin = 5;
 const int stepsPerRevolution = 200;
 
 void setup()
