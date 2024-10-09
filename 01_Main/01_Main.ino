@@ -14,22 +14,6 @@
 #define FAN_DIR_PIN 8
 #define FAN_STEP_PIN 9 
 #define FAN_SLEEP_PIN 10
-// #define RAIL_ENA_PIN1 32 // enable pins for rail stepper motor
-// #define RAIL_ENA_PIN2 33
-// #define RAIL_ENB_PIN1 30
-// #define RAIL_ENB_PIN2 31
-// #define RAIL_PIN1 4 
-// #define RAIL_PIN2 6
-// #define RAIL_PIN3 5
-// #define RAIL_PIN4 7
-// #define FAN_ENA_PIN1 36 // enable pins for fan stepper motor
-// #define FAN_ENA_PIN2 37
-// #define FAN_ENB_PIN1 34
-// #define FAN_ENB_PIN2 35
-// #define FAN1_PIN1 8
-// #define FAN1_PIN2 9 
-// #define FAN1_PIN3 10
-// #define FAN1_PIN4 11
 
 // Define 15 states for the finite state machine
 enum State {
