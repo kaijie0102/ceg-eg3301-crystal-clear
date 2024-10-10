@@ -15,8 +15,8 @@ void executeState2() {
     executeWaterRegeneration();
   
     // washing cycle 2
-    executeWashingCycle();
-    executeWaterRegeneration();
+//    executeWashingCycle();
+//    executeWaterRegeneration();
 
     // washing cycle 3
     executeWashingCycle();
@@ -74,6 +74,7 @@ void executeWashingCycle() {
 
     Serial.println("Water pump on");
     // TODO
+    delay(3000);
 }
 
 // Water Regeneration 
@@ -84,7 +85,6 @@ void executeWaterRegeneration() {
 
     Serial.println("Valve 2 close");
     closeValve2();
-    delay(3000);
 
     Serial.println("Valve 3 open");
     openValve3();
@@ -103,6 +103,7 @@ void executeEndWashingCycle() {
   Serial.println("STATE - End Washing Cycle");
   Serial.println("Water Pump off");
   // TODO
+  delay(3000);
   
   Serial.println("Cup servo actuator off");
   cupServoStop();
@@ -139,17 +140,15 @@ void executeDryingPhase() {
 
     Serial.println("Fan ON");
     digitalWrite(FANRELAYPIN, HIGH);
-    // delay(5000); // fan blows for 5 seconds
+    delay(5000); // fan blows for 5 seconds
 
     Serial.println("Cup servo to rotate");
     cupServoStart();
     delay(3000);
-    //cupServo.write(90);
     
     Serial.println("Fan stepper move down ");
     moveFanStepperMotorDown();
     delay(3000); 
-    // Additional code here
 }
 
 
@@ -157,7 +156,7 @@ void executeDryingPhase() {
 void executeEndDryingPhase() {
     Serial.println("STATE - End of Drying Process");
     // cup stop, fan stop
-    digitalWrite(FANRELAYPIN, LOW);
+    stopInternalFans();
     Serial.println("Fan OFF");
     Serial.print("State Number: ");
     Serial.println(currentState);

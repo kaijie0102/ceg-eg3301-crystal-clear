@@ -1,40 +1,37 @@
 // Import libraries
 #include <Stepper.h>
 #include <Servo.h>
+Servo cupServo;  // create continuous servo object
 
 // Define Arduino Pins
 #define BUTTONPIN 2    // Pin where the push button is connected
 #define CUPSERVOPIN 3 // continuous servo motor
 #define FANRELAYPIN 22 // relay for fan
-#define VALVE1RELAYPIN 12 // relay for valve 1
-#define VALVE2RELAYPIN 13 // relay for valve 2
-#define VALVE3RELAYPIN 14 // relay for valve 3
+#define WATERPUMPRELAYPIN 46// relay for water pump
 
 
-#define RAIL_ENA_PIN1 32 // enable pins for rail stepper motor
-#define RAIL_ENA_PIN2 33
-#define RAIL_ENB_PIN1 30
-#define RAIL_ENB_PIN2 31
-#define RAIL_PIN1 4
-#define RAIL_PIN2 6
-#define RAIL_PIN3 5
-#define RAIL_PIN4 7
+#define VALVE1RELAYPIN 48 // relay for valve 1
+#define VALVE2RELAYPIN 50// relay for valve 2
+#define VALVE3RELAYPIN 52 // relay for valve 3
 
-#define FAN_ENA_PIN1 36 // enable pins for fan stepper motor
-#define FAN_ENA_PIN2 37
-#define FAN_ENB_PIN1 34
-#define FAN_ENB_PIN2 35
-#define FAN1_PIN1 8
-#define FAN1_PIN2 9 
-#define FAN1_PIN3 10
-#define FAN1_PIN4 11
+#define RAIL_DIR_PIN 5
+#define RAIL_STEP_PIN 6
+#define RAIL_SLEEP_PIN 7
+
+#define FAN_DIR_PIN 8
+#define FAN_STEP_PIN 9 
+#define FAN_SLEEP_PIN 10
+
+//#define FAN2_DIR_PIN 11
+//#define FAN2_STEP_PIN 12 
+//#define FAN2_SLEEP_PIN 13
 
 // Define 15 states for the finite state machine
 enum State {
   STATE_1, STATE_2, STATE_3, STATE_4, STATE_5, STATE_6, STATE_7, STATE_8,
   STATE_9, STATE_10, STATE_11, STATE_12, STATE_13, STATE_14, STATE_15
 };  
-State currentState = STATE_3;
+State currentState = STATE_1;
 
 // 02_PowerControl
 void setupRelay();
@@ -51,18 +48,25 @@ void moveFanStepperMotorDown();
 void setupServoMotor();
 void cupServoStart();
 void cupServoStop();
-Servo cupServo;  // create continuous servo object
-unsigned long timer; 
-static const unsigned long timeout = 7500; // loop ends after specified duration
-int servoCounter = 0;  
 
 // 05_Ui
 void setupUi();
 void readButtonInput();
 
 // 06_Fan
+void startInternalFans();
+void stopInternalFans();
 
-// 07_StateControl
+// 07_SolenoidValveControl
+void setupSolenoidValve();
+void openValve1();
+void openValve2();
+void openValve3();
+void closeValve1();
+void closeValve2();
+void closeValve3();
+
+// 08_StateControl
 void executeState1();
 void executeState2();
 void executeState3();
@@ -75,6 +79,7 @@ void setup() {
   setupFanStepperMotor();
   setupServoMotor();
   setupSolenoidValve();
+
   setupUi(); 
   
   // Initialize the serial port:
@@ -87,7 +92,6 @@ void setup() {
 }
 
 void loop() {
-  // Handle the current state
   handleState();
 }
 
