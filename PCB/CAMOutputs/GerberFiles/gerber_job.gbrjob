@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2024-10-10T14:37:58Z",
+        "GenerationSoftware": {
+            "Application": "Fusion 360 Electronics",
+            "Vendor": "Autodesk",
+            "Version": "9.7.0"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.57,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "eg3301_pcb v4"
+        },
+        "Owner": "Charlyn Kwan <e0969511@u.nus.edu>",
+        "Size": {
+            "X": 97.5,
+            "Y": 73.7
+        }
+    }
+}
