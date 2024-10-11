@@ -1,0 +1,6 @@
+Reference List
+
+For importing gerber file: https://www.pcbway.com/blog/PCB_Design_Tutorial/How_to_Generate_Gerber_Files_in_Fusion_360_7c039fbf.html 
+
+For checking design rules:
+https://github.com/pcbway/PCBWay-Design-Rules/blob/main/Eagle/PCBWay_2L_152um-Track.dru 
