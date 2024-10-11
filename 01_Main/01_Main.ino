@@ -1,14 +1,13 @@
 // Import libraries
 #include <Stepper.h>
 #include <Servo.h>
-Servo cupServo;  // create continuous servo object
 
 // Define Arduino Pins
 #define BUTTONPIN 2    // Pin where the push button is connected
 #define CUPSERVOPIN 3 // continuous servo motor
 #define FANRELAYPIN 22 // relay for fan
+#define FAN2RELAYPIN 24 // relay for fan
 #define WATERPUMPRELAYPIN 46// relay for water pump
-
 
 #define VALVE1RELAYPIN 48 // relay for valve 1
 #define VALVE2RELAYPIN 50// relay for valve 2
@@ -31,7 +30,7 @@ enum State {
   STATE_1, STATE_2, STATE_3, STATE_4, STATE_5, STATE_6, STATE_7, STATE_8,
   STATE_9, STATE_10, STATE_11, STATE_12, STATE_13, STATE_14, STATE_15
 };  
-State currentState = STATE_1;
+State currentState = STATE_4;
 
 // 02_PowerControl
 void setupRelay();

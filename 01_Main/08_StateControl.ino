@@ -139,7 +139,7 @@ void executeDryingPhase() {
     
 
     Serial.println("Fan ON");
-    digitalWrite(FANRELAYPIN, HIGH);
+    startInternalFans();
     delay(5000); // fan blows for 5 seconds
 
     Serial.println("Cup servo to rotate");
@@ -156,6 +156,7 @@ void executeDryingPhase() {
 void executeEndDryingPhase() {
     Serial.println("STATE - End of Drying Process");
     // cup stop, fan stop
+    cupServoStop();
     stopInternalFans();
     Serial.println("Fan OFF");
     Serial.print("State Number: ");
