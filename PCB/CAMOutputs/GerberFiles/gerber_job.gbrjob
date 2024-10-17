@@ -1,9 +1,9 @@
 {
     "Header": {
         "Comment": "All values are metric (mm)",
-        "CreationDate": "2024-10-10T14:37:58Z",
+        "CreationDate": "2024-10-17T09:34:55Z",
         "GenerationSoftware": {
-            "Application": "Fusion 360 Electronics",
+            "Application": "Fusion Electronics",
             "Vendor": "Autodesk",
             "Version": "9.7.0"
         },
@@ -13,7 +13,7 @@
         "BoardThickness": 1.57,
         "LayerNumber": 2,
         "Name": {
-            "ProjectId": "eg3301_pcb v4"
+            "ProjectId": "eg3301_pcb v11"
         },
         "Owner": "Charlyn Kwan <e0969511@u.nus.edu>",
         "Size": {
