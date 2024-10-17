@@ -4,6 +4,9 @@
 
 void executeState1() {
     Serial.println("STATE 1 - setup washing phase");
+    // cupServoStart(); 
+    // fanServoStart();
+    // moveFanStepperMotorUp();
     executeInitialisation();
     executeMoveToWashingCompartment();
 }

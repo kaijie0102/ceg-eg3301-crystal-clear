@@ -1,6 +1,7 @@
-void setupRelay() {
-  // Relays setup 
-  pinMode(FANRELAYPIN, OUTPUT);
-  pinMode(FAN2RELAYPIN, OUTPUT);
-}
+// void setupRelay() {
+//   // Relays setup 
+//   pinMode(INNERFANRELAYPIN, OUTPUT);
+//   pinMode(INNERFAN2RELAYPIN, OUTPUT);
+//   pinMode(OUTERFANRELAYPIN, OUTPUT);
+// }
 
