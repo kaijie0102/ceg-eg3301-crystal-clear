@@ -1,7 +1,7 @@
-Servo cupServo;  // create continuous servo object
-Servo cupServo2;  // create continuous servo object
-Servo fanServo;
-Servo fanServo2;
+Servo cupServo;  // pin 3 create continuous servo object
+Servo cupServo2;  // pin 4 create continuous servo object
+Servo fanServo; // pin 33
+Servo fanServo2; // pin 35
 // unsigned long timer; 
 // static const unsigned long timeout = 7500; // loop ends after specified duration
 // int servoCounter = 0;  
@@ -18,8 +18,8 @@ void setupServoMotor() {
 int pos;
 
 void cupServoStart(){
-  cupServo.write(60);
-  cupServo2.write(60);
+  // cupServo.write(80);
+  cupServo2.write(80);
   
   delay(3000);
 }
@@ -28,10 +28,11 @@ void cupServoStop(){
   cupServo.write(90);
 }
 
-void cupServo2Start() {
+void fanServoStart() {
   for (pos = 0; pos <= 180; pos += 1) {
-    fanServo.write(pos);
-    fanServo2.write(pos);
+    // fanServo.write(pos);
+    // fanServo2.write(pos);
+    cupServo.write(pos);
     delay(15);
     if (pos==180){
       pos=0;
