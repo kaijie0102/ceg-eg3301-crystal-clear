@@ -1,30 +1,39 @@
 // Import libraries
 #include <Stepper.h>
 #include <Servo.h>
-Servo cupServo;  // create continuous servo object
+
+// Temp ARduino Pins
+// #define BUTTONPIN 19    // Pin where the push button is connected
+// #define CUPSERVOPIN 18 // continuous servo motor
 
 // Define Arduino Pins
+// General 
 #define BUTTONPIN 2    // Pin where the push button is connected
 #define CUPSERVOPIN 3 // continuous servo motor
-#define FANRELAYPIN 22 // relay for fan
-#define WATERPUMPRELAYPIN 46// relay for water pump
+#define CUPSERVO2PIN 4 // continuous servo motor
 
-
-#define VALVE1RELAYPIN 48 // relay for valve 1
-#define VALVE2RELAYPIN 50// relay for valve 2
-#define VALVE3RELAYPIN 52 // relay for valve 3
-
+// Steppers
 #define RAIL_DIR_PIN 5
 #define RAIL_STEP_PIN 6
 #define RAIL_SLEEP_PIN 7
-
 #define FAN_DIR_PIN 8
 #define FAN_STEP_PIN 9 
 #define FAN_SLEEP_PIN 10
-
 //#define FAN2_DIR_PIN 11
 //#define FAN2_STEP_PIN 12 
 //#define FAN2_SLEEP_PIN 13
+
+// Fans
+#define FANRELAYPIN 22 // relay for fan
+#define FAN2RELAYPIN 24 // relay for fan
+#define FANSERVOPIN 33
+#define FANSERVO2PIN 35
+
+// Water Pumps
+#define WATERPUMPRELAYPIN 46// relay for water pump
+#define VALVE1RELAYPIN 48 // relay for valve 1
+#define VALVE2RELAYPIN 50// relay for valve 2
+#define VALVE3RELAYPIN 52 // relay for valve 3
 
 // Define 15 states for the finite state machine
 enum State {
@@ -47,6 +56,7 @@ void moveFanStepperMotorDown();
 // 03_ServoMotorControl
 void setupServoMotor();
 void cupServoStart();
+void fanServoStart();
 void cupServoStop();
 
 // 05_Ui
@@ -99,7 +109,10 @@ void loop() {
 // Function to handle the logic for each state
 void handleState() {
   switch (currentState) {
-    case STATE_1: // Start and setup 
+    case STATE_1: // Start and setup
+      cupServoStart(); 
+      fanServoStart();
+      // moveFanStepperMotorUp();
       executeState1();
       break;
     case STATE_2: // 
@@ -112,8 +125,9 @@ void handleState() {
       executeState4();
       break;
     case STATE_5:
+      executeTeardown();
       // Handle logic for STATE_15
-      currentState = STATE_15;  // Reset to initial state
+      // currentState = STATE_15;  // Reset to initial state
       break;
     case STATE_6:
       // Handle logic for STATE_15
