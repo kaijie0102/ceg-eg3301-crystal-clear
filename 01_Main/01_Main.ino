@@ -24,8 +24,10 @@
 //#define FAN2_SLEEP_PIN 13
 
 // Fans
-#define FANRELAYPIN 22 // relay for fan
-#define FAN2RELAYPIN 24 // relay for fan
+#define INNERFANRELAYPIN 22 // relay for inner fan
+#define INNERFAN2RELAYPIN 24 // relay for inner fan
+#define OUTERFANRELAYPIN 26 // relay for fan
+// #define OUTERFANRELAYPIN 26 // relay for fan
 #define FANSERVOPIN 33
 #define FANSERVO2PIN 35
 
@@ -40,10 +42,10 @@ enum State {
   STATE_1, STATE_2, STATE_3, STATE_4, STATE_5, STATE_6, STATE_7, STATE_8,
   STATE_9, STATE_10, STATE_11, STATE_12, STATE_13, STATE_14, STATE_15
 };  
-State currentState = STATE_1;
+State currentState = STATE_4;
 
 // 02_PowerControl
-void setupRelay();
+// void setupRelay();
 
 // 03_StepperMotorControl
 void setupRailStepperMotor();
@@ -64,6 +66,7 @@ void setupUi();
 void readButtonInput();
 
 // 06_Fan
+void setupFanRelay();
 void startInternalFans();
 void stopInternalFans();
 
@@ -84,7 +87,7 @@ void executeState4();
 
 void setup() {
 
-  setupRelay();
+  setupFanRelay();
   setupRailStepperMotor();
   setupFanStepperMotor();
   setupServoMotor();
@@ -110,9 +113,6 @@ void loop() {
 void handleState() {
   switch (currentState) {
     case STATE_1: // Start and setup
-      cupServoStart(); 
-      fanServoStart();
-      // moveFanStepperMotorUp();
       executeState1();
       break;
     case STATE_2: // 

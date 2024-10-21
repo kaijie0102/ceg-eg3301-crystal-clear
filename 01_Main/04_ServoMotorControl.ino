@@ -18,10 +18,12 @@ void setupServoMotor() {
 int pos;
 
 void cupServoStart(){
-  // cupServo.write(80);
-  cupServo2.write(80);
+  cupServo.write(0); // pin 3
+  cupServo2.write(0); // pin 4
   
   delay(3000);
+  // cupServo.write(90);
+  // cupServo2.write(90);
 }
 
 void cupServoStop(){
@@ -32,7 +34,7 @@ void fanServoStart() {
   for (pos = 0; pos <= 180; pos += 1) {
     // fanServo.write(pos);
     // fanServo2.write(pos);
-    cupServo.write(pos);
+    // cupServo.write(pos);
     delay(15);
     if (pos==180){
       pos=0;
