@@ -2,12 +2,44 @@
 #include <Stepper.h>
 #include <Servo.h>
 
-// Temp ARduino Pins
-// #define BUTTONPIN 19    // Pin where the push button is connected
-// #define CUPSERVOPIN 18 // continuous servo motor
-
-// Define Arduino Pins
+// Define PCB Pins
 // General 
+#define BUTTONPIN 16   // Pin where the push button is connected
+#define CUPSERVOPIN 15 // continuous servo motor
+#define CUPSERVO2PIN 14 // continuous servo motor
+
+// Steppers
+#define RAIL_DIR_PIN 21
+#define RAIL_STEP_PIN 20
+#define RAIL_SLEEP_PIN 19
+#define FAN_DIR_PIN 5 
+#define FAN_STEP_PIN 6 
+#define FAN_SLEEP_PIN 7
+#define FAN2_DIR_PIN 11
+#define FAN2_STEP_PIN 12 
+#define FAN2_SLEEP_PIN 13
+
+// Fans
+#define INNERFANRELAYPIN 23 // relay for inner fan
+#define INNERFAN2RELAYPIN 27 // relay for inner fan
+#define OUTERFANRELAYPIN 39 // relay for fan
+#define OUTERFAN2RELAYPIN 49 // relay 2 for fan
+#define FANSERVOPIN A0
+#define FANSERVO2PIN A1
+
+// Water Pumps
+#define WATERPUMPRELAYPIN 52// relay for water pump
+#define VALVE1RELAYPIN A5 // relay for valve 1
+#define VALVE2RELAYPIN A13 // relay for valve 2 
+#define VALVE3RELAYPIN A9 // relay for valve 3
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+// Define Arduino Pins FlatSat
+// General 
+/*
 #define BUTTONPIN 2    // Pin where the push button is connected
 #define CUPSERVOPIN 3 // continuous servo motor
 #define CUPSERVO2PIN 4 // continuous servo motor
@@ -27,7 +59,7 @@
 #define INNERFANRELAYPIN 22 // relay for inner fan
 #define INNERFAN2RELAYPIN 24 // relay for inner fan
 #define OUTERFANRELAYPIN 26 // relay for fan
-// #define OUTERFANRELAYPIN 26 // relay for fan
+#define OUTERFAN2RELAYPIN 28 // relay 2 for fan
 #define FANSERVOPIN 33
 #define FANSERVO2PIN 35
 
@@ -36,13 +68,14 @@
 #define VALVE1RELAYPIN 48 // relay for valve 1
 #define VALVE2RELAYPIN 50// relay for valve 2
 #define VALVE3RELAYPIN 52 // relay for valve 3
+*/
 
 // Define 15 states for the finite state machine
 enum State {
   STATE_1, STATE_2, STATE_3, STATE_4, STATE_5, STATE_6, STATE_7, STATE_8,
   STATE_9, STATE_10, STATE_11, STATE_12, STATE_13, STATE_14, STATE_15
 };  
-State currentState = STATE_4;
+State currentState = STATE_1;
 
 // 02_PowerControl
 // void setupRelay();
@@ -156,7 +189,8 @@ void changeState() {
   // Cycle through states: STATE_1 -> STATE_2 -> STATE_3 -> ... -> STATE_15 -> STATE_1
   switch (currentState) {
     case STATE_1:
-      currentState = STATE_2;
+      // currentState = STATE_2;
+      currentState = STATE_1;
       break;
     case STATE_2:
       currentState = STATE_3;

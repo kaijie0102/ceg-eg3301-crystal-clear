@@ -1,5 +1,5 @@
-const int RAIL_LENGTH = 1000; // Do not modify. Number of steps per output rotation
-const int CUP_HEIGHT = 500; // Do not modify. Number of steps per output rotation
+const int RAIL_LENGTH = 1000; // Number of steps per output rotation
+const int CUP_HEIGHT = 200; // Number of steps per output rotation
 
 void setupRailStepperMotor() {
   pinMode(RAIL_DIR_PIN, OUTPUT);

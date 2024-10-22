@@ -3,12 +3,20 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void executeState1() {
-    Serial.println("STATE 1 - setup washing phase");
-    // cupServoStart(); 
-    // fanServoStart();
-    // moveFanStepperMotorUp();
-    executeInitialisation();
-    executeMoveToWashingCompartment();
+  readButtonInput();    
+
+  // moveFanStepperMotorDown();
+  // startInternalFans();
+  // cupServoStart(); 
+  // executeInitialisation();
+  // executeSetupDryingPhase();
+
+
+    // Serial.println("STATE 1 - setup washing phase");
+    // // fanServoStart();
+    // // moveFanStepperMotorUp();
+    // executeInitialisation();
+    // executeMoveToWashingCompartment();
 }
 
 void executeState2() {

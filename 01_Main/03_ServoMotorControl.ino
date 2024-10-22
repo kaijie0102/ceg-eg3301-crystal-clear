@@ -6,6 +6,8 @@ Servo fanServo2; // pin 35
 // static const unsigned long timeout = 7500; // loop ends after specified duration
 // int servoCounter = 0;  
 
+int SPINNING_SPEED = 80; // 90 to stop, 0 fastest
+
 void setupServoMotor() {
   // Servo Motor Setup
   cupServo.attach(CUPSERVOPIN);
@@ -18,8 +20,8 @@ void setupServoMotor() {
 int pos;
 
 void cupServoStart(){
-  cupServo.write(0); // pin 3
-  cupServo2.write(0); // pin 4
+  // cupServo.write(SPINNING_SPEED); // pin 3
+  cupServo2.write(SPINNING_SPEED); // pin 4
   
   delay(3000);
   // cupServo.write(90);
@@ -33,7 +35,7 @@ void cupServoStop(){
 void fanServoStart() {
   for (pos = 0; pos <= 180; pos += 1) {
     // fanServo.write(pos);
-    // fanServo2.write(pos);
+    fanServo2.write(pos);
     // cupServo.write(pos);
     delay(15);
     if (pos==180){
