@@ -1,36 +1,36 @@
 void setupSolenoidValve() {
   // Solenoid valve setup
-  pinMode(VALVE1RELAYPIN, OUTPUT);
-  pinMode(VALVE2RELAYPIN, OUTPUT);
-  pinMode(VALVE3RELAYPIN, OUTPUT);
+  pinMode(VALVE_1_PIN, OUTPUT);
+  pinMode(VALVE_2_PIN, OUTPUT);
+  pinMode(VALVE_3_PIN, OUTPUT);
 }
 
 void openValve1() {
-  digitalWrite(VALVE1RELAYPIN, HIGH);
+  digitalWrite(VALVE_1_PIN, HIGH);
   Serial.println("Valve 1 open");
 }
 
 void closeValve1() {
-  digitalWrite(VALVE1RELAYPIN, LOW);
+  digitalWrite(VALVE_1_PIN, LOW);
   Serial.println("Valve 1 close");
 }
 
 void openValve2() {
-  digitalWrite(VALVE2RELAYPIN, HIGH);
+  digitalWrite(VALVE_2_PIN, HIGH);
   Serial.println("Valve 2 open");
 }
 
 void closeValve2() {
-  digitalWrite(VALVE2RELAYPIN, LOW);
+  digitalWrite(VALVE_2_PIN, LOW);
   Serial.println("Valve 2 close");
 }
 
 void openValve3() {
-  digitalWrite(VALVE3RELAYPIN, HIGH);
+  digitalWrite(VALVE_3_PIN, HIGH);
   Serial.println("Valve 3 open");
 }
 
 void closeValve3() {
-  digitalWrite(VALVE3RELAYPIN, LOW);
+  digitalWrite(VALVE_3_PIN, LOW);
   Serial.println("Valve 3 close");
 }

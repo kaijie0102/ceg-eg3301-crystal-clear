@@ -6,7 +6,7 @@ unsigned long lastDebounceTime = 0;  // Last time the button state changed
 
 void setupUi() {
   // Button Setup
-  pinMode(BUTTONPIN, INPUT_PULLUP);  // Enable the internal pull-up resistor for the button  
+  pinMode(BUTTON_PIN, INPUT_PULLUP);  // Enable the internal pull-up resistor for the button  
 }
 
 void readButtonInput() {
@@ -14,7 +14,7 @@ void readButtonInput() {
 
   // Wait until button is pressed and debounced
   while (true) {
-    int reading = digitalRead(BUTTONPIN); // Active Low 
+    int reading = digitalRead(BUTTON_PIN); // Active Low 
 
     // If the button state has changed (i.e., different from last read)
     if (reading != lastButtonState) { // if reading become 0

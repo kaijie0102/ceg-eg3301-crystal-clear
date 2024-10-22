@@ -4,10 +4,10 @@
 
 void executeState1() {
   readButtonInput();    
+  cupServoStart(); 
 
   // moveFanStepperMotorDown();
   // startInternalFans();
-  // cupServoStart(); 
   // executeInitialisation();
   // executeSetupDryingPhase();
 

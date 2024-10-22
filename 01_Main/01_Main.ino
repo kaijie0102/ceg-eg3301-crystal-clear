@@ -4,9 +4,9 @@
 
 // Define PCB Pins
 // General 
-#define BUTTONPIN 16   // Pin where the push button is connected
-#define CUPSERVOPIN 15 // continuous servo motor
-#define CUPSERVO2PIN 14 // continuous servo motor
+#define BUTTON_PIN 16   // Pin where the push button is connected
+#define L_CUPSERVO_PIN 15 // continuous servo motor
+#define R_CUPSERVO_PIN 14 // continuous servo motor
 
 // Steppers
 #define RAIL_DIR_PIN 21
@@ -20,18 +20,18 @@
 #define FAN2_SLEEP_PIN 13
 
 // Fans
-#define INNERFANRELAYPIN 23 // relay for inner fan
-#define INNERFAN2RELAYPIN 27 // relay for inner fan
-#define OUTERFANRELAYPIN 39 // relay for fan
-#define OUTERFAN2RELAYPIN 49 // relay 2 for fan
-#define FANSERVOPIN A0
-#define FANSERVO2PIN A1
+#define L_INNER_FAN_PIN 23 // relay for inner fan
+#define R_INNER_FAN_PIN 27 // relay for inner fan
+#define L_OUTER_FAN_PIN 39 // relay for fan
+#define R_OUTER_FAN_PIN 49 // relay 2 for fan
+#define L_FANSERVO_PIN A0
+#define R_FANSERVO_PIN A1
 
 // Water Pumps
-#define WATERPUMPRELAYPIN 52// relay for water pump
-#define VALVE1RELAYPIN A5 // relay for valve 1
-#define VALVE2RELAYPIN A13 // relay for valve 2 
-#define VALVE3RELAYPIN A9 // relay for valve 3
+#define WATER_PUMP_PIN 52// relay for water pump
+#define VALVE_1_PIN A5 // relay for valve 1
+#define VALVE_2_PIN A13 // relay for valve 2 
+#define VALVE_3_PIN A9 // relay for valve 3
 
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -40,9 +40,9 @@
 // Define Arduino Pins FlatSat
 // General 
 /*
-#define BUTTONPIN 2    // Pin where the push button is connected
-#define CUPSERVOPIN 3 // continuous servo motor
-#define CUPSERVO2PIN 4 // continuous servo motor
+#define BUTTON_PIN 2    // Pin where the push button is connected
+#define L_CUPSERVO_PIN 3 // continuous servo motor
+#define R_CUPSERVO_PIN 4 // continuous servo motor
 
 // Steppers
 #define RAIL_DIR_PIN 5
@@ -56,18 +56,18 @@
 //#define FAN2_SLEEP_PIN 13
 
 // Fans
-#define INNERFANRELAYPIN 22 // relay for inner fan
-#define INNERFAN2RELAYPIN 24 // relay for inner fan
-#define OUTERFANRELAYPIN 26 // relay for fan
-#define OUTERFAN2RELAYPIN 28 // relay 2 for fan
+#define L_INNER_FAN_PIN 22 // relay for inner fan
+#define R_INNER_FAN_PIN 24 // relay for inner fan
+#define L_OUTER_FAN_PIN 26 // relay for fan
+#define R_OUTER_FAN_PIN 28 // relay 2 for fan
 #define FANSERVOPIN 33
 #define FANSERVO2PIN 35
 
 // Water Pumps
-#define WATERPUMPRELAYPIN 46// relay for water pump
-#define VALVE1RELAYPIN 48 // relay for valve 1
-#define VALVE2RELAYPIN 50// relay for valve 2
-#define VALVE3RELAYPIN 52 // relay for valve 3
+#define WATER_PUMP_PIN 46// relay for water pump
+#define VALVE_1_PIN 48 // relay for valve 1
+#define VALVE_2_PIN 50// relay for valve 2
+#define VALVE_3_PIN 52 // relay for valve 3
 */
 
 // Define 15 states for the finite state machine
