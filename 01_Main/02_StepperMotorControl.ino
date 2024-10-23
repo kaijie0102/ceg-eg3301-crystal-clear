@@ -1,5 +1,5 @@
-const int RAIL_LENGTH = 1000; // Number of steps per output rotation
-const int CUP_HEIGHT = 1000; // Number of steps per output rotation
+const int RAIL_LENGTH = 950; // Number of steps per output rotation
+const int CUP_HEIGHT = 3850; // Number of steps per output rotation
 
 void setupRailStepperMotor() {
   pinMode(RAIL_DIR_PIN, OUTPUT);
@@ -14,7 +14,7 @@ void setupFanStepperMotor() {
 }
 
 void moveRailStepperMotorBackwards() {
-  digitalWrite(RAIL_DIR_PIN, HIGH);
+  digitalWrite(RAIL_DIR_PIN, LOW);
   digitalWrite(RAIL_SLEEP_PIN, HIGH);
   for(int x = 0; x < RAIL_LENGTH; x++)
 	{
@@ -27,7 +27,7 @@ void moveRailStepperMotorBackwards() {
 }
 
 void moveRailStepperMotorForward() {
-  digitalWrite(RAIL_DIR_PIN, LOW);
+  digitalWrite(RAIL_DIR_PIN, HIGH);
   digitalWrite(RAIL_SLEEP_PIN, HIGH);
   for(int x = 0; x < RAIL_LENGTH; x++)
 	{
@@ -64,4 +64,26 @@ void moveFanStepperMotorDown() {
 		delayMicroseconds(2000);
 	}
   digitalWrite(L_FAN_SLEEP_PIN, LOW);
+}
+
+void moveFanStepperMotorDownSlow() {
+  digitalWrite(L_FAN_DIR_PIN, HIGH);
+  digitalWrite(L_FAN_SLEEP_PIN, HIGH);
+  for(int x = 0; x < CUP_HEIGHT; x++)
+	{
+		digitalWrite(L_FAN_STEP_PIN, HIGH);
+		delayMicroseconds(5000);
+		digitalWrite(L_FAN_STEP_PIN, LOW);
+		delayMicroseconds(5000);
+	}
+  digitalWrite(L_FAN_SLEEP_PIN, LOW);
+}
+
+void executeCupDryingMode() {
+  for (int i=0; i<3; i++){
+    moveFanStepperMotorDownSlow();
+    delay(1000*(i+1));
+    moveFanStepperMotorUp();
+  }  
+  moveFanStepperMotorDown();
 }

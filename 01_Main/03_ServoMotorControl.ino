@@ -7,7 +7,7 @@ Servo fanServoR; // pin 35
 // int servoCounter = 0;  
 
 int SPINNING_SPEED = 70; // 90 to stop, 0 fastest
-int pos;
+int pos = 125;
 int done;
 
 void setupServoMotor() {
@@ -19,8 +19,9 @@ void setupServoMotor() {
 }
 
 void cupServoStart(){
+  cupServoL.write(0); 
+  delay(2000);
   cupServoL.write(SPINNING_SPEED); 
-  // cupServoL.write(0); 
   // cupServoR.write(SPINNING_SPEED); 
   
 }
@@ -31,14 +32,23 @@ void cupServoStop(){
 }
 
 
+// void fanServoPanDown(){
+
+// }
+
+
 void fanServoStart() {
-  for (pos = 0; pos <= 180; pos += 1) {
+  
+  for (pos = 125; pos >= 60; pos -= 1) {
+    if (pos == 125 || pos == 60){
+      delay(5000);
+    }
     fanServoL.write(pos);
     // fanServoR.write(pos);
     // cupServoL.write(pos);
-    delay(15);
-    if (pos==180 && done!=1){
-      pos=0;
+    delay(150);
+    if (pos==60 && done!=1){
+      pos=125;
       done = 1;
     }
   }

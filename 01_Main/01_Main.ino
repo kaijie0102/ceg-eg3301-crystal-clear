@@ -12,12 +12,12 @@
 #define RAIL_DIR_PIN 21
 #define RAIL_STEP_PIN 20
 #define RAIL_SLEEP_PIN 19
-#define L_FAN_DIR_PIN 11 
-#define L_FAN_STEP_PIN 12 
-#define L_FAN_SLEEP_PIN 13
-#define R_FAN_DIR_PIN 5
-#define R_FAN_STEP_PIN 6 
-#define R_FAN_SLEEP_PIN 7
+#define L_FAN_DIR_PIN 5 //11 
+#define L_FAN_STEP_PIN 6 //12 
+#define L_FAN_SLEEP_PIN 7// 13 
+// #define R_FAN_DIR_PIN 5
+// #define R_FAN_STEP_PIN 6 
+// #define R_FAN_SLEEP_PIN 7
 
 // Fans
 #define L_INNER_FAN_PIN 23 // relay for inner fan
@@ -32,43 +32,6 @@
 #define VALVE_1_PIN A5 // relay for valve 1
 #define VALVE_2_PIN A13 // relay for valve 2 
 #define VALVE_3_PIN A9 // relay for valve 3
-
-//////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-
-// Define Arduino Pins FlatSat
-// General 
-
-// #define BUTTON_PIN 2    // Pin where the push button is connected
-// #define L_CUPSERVO_PIN 3 // continuous servo motor
-// #define R_CUPSERVO_PIN 4 // continuous servo motor
-
-// // Steppers
-// #define RAIL_DIR_PIN 5
-// #define RAIL_STEP_PIN 6
-// #define RAIL_SLEEP_PIN 7
-// #define L_FAN_DIR_PIN 8
-// #define L_FAN_STEP_PIN 9 
-// #define L_FAN_SLEEP_PIN 10
-// //#define R_FAN_DIR_PIN 11
-// //#define R_FAN_STEP_PIN 12 
-// //#define R_FAN_SLEEP_PIN 13
-
-// // Fans
-// #define L_INNER_FAN_PIN 22 // relay for inner fan
-// #define R_INNER_FAN_PIN 24 // relay for inner fan
-// #define L_OUTER_FAN_PIN 26 // relay for fan
-// #define R_OUTER_FAN_PIN 28 // relay 2 for fan
-// #define FANSERVOPIN 33
-// #define FANSERVO2PIN 35
-
-// // Water Pumps
-// #define WATER_PUMP_PIN 46// relay for water pump
-// #define VALVE_1_PIN 48 // relay for valve 1
-// #define VALVE_2_PIN 50// relay for valve 2
-// #define VALVE_3_PIN 52 // relay for valve 3
-
 
 // Define 15 states for the finite state machine
 enum State {
@@ -87,6 +50,8 @@ void moveRailStepperMotorBackwards();
 void moveRailStepperMotorForward();
 void moveFanStepperMotorUp();
 void moveFanStepperMotorDown();
+void moveFanStepperMotorDownSlow();
+void executeCupDryingMode();
 
 // 03_ServoMotorControl
 void setupServoMotor();
@@ -238,3 +203,39 @@ void changeState() {
       break;
   }
 }
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+// Define Arduino Pins FlatSat
+// General 
+
+// #define BUTTON_PIN 2    // Pin where the push button is connected
+// #define L_CUPSERVO_PIN 3 // continuous servo motor
+// #define R_CUPSERVO_PIN 4 // continuous servo motor
+
+// // Steppers
+// #define RAIL_DIR_PIN 5
+// #define RAIL_STEP_PIN 6
+// #define RAIL_SLEEP_PIN 7
+// #define L_FAN_DIR_PIN 8
+// #define L_FAN_STEP_PIN 9 
+// #define L_FAN_SLEEP_PIN 10
+// //#define R_FAN_DIR_PIN 11
+// //#define R_FAN_STEP_PIN 12 
+// //#define R_FAN_SLEEP_PIN 13
+
+// // Fans
+// #define L_INNER_FAN_PIN 22 // relay for inner fan
+// #define R_INNER_FAN_PIN 24 // relay for inner fan
+// #define L_OUTER_FAN_PIN 26 // relay for fan
+// #define R_OUTER_FAN_PIN 28 // relay 2 for fan
+// #define FANSERVOPIN 33
+// #define FANSERVO2PIN 35
+
+// // Water Pumps
+// #define WATER_PUMP_PIN 46// relay for water pump
+// #define VALVE_1_PIN 48 // relay for valve 1
+// #define VALVE_2_PIN 50// relay for valve 2
+// #define VALVE_3_PIN 52 // relay for valve 3

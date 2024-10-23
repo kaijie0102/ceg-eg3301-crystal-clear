@@ -1,6 +1,8 @@
 void setupSolenoidValve() {
   // Solenoid valve setup
   pinMode(VALVE_1_PIN, OUTPUT);
+  digitalWrite(VALVE_1_PIN, LOW); // for demo only
+
   pinMode(VALVE_2_PIN, OUTPUT);
   pinMode(VALVE_3_PIN, OUTPUT);
   pinMode(WATER_PUMP_PIN, OUTPUT);
@@ -37,9 +39,9 @@ void closeValve3() {
 }
 
 void onInnerPump() {
+  delay(3000);
   digitalWrite(WATER_PUMP_PIN, HIGH);
   Serial.println("Water Pump Open");
-  delay(3000);
 }
 
 void offInnerPump() {

@@ -3,26 +3,41 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void executeState1() {
-  readButtonInput();  
-  
-  moveRailStepperMotorBackwards();
-  moveFanStepperMotorUp();
+  // readButtonInput();  
+  executeInitialisation();
   cupServoStart();
-  fanServoStart();
-  cupServoStop();
-  startFans();
-  delay(5000);
-  stopFans();
+  // executeMoveToWashingCompartment();
+  // executeWashingCycle();
+  // executeEndWashingCycle();
+
+  // moveRailStepperMotorBackwards();
+  // fanServoL.write(125);
+  // moveFanStepperMotorUp();
+  // delay(3000);
+  // moveFanStepperMotorDown();
+  // cupServoStart();
+  // startFans();
+  // fanServoStart();
+  // delay(10000);
+  // cupServoStop();
+  // stopFans();
   
-    // executeInitialisation();
-    // executeMoveToWashingCompartment();
+
+  // TODO
+  // 1) Execute Washing only
+  // 2) Execute Drying Only
+
+    // executeSetupDryingPhase();
+    // executeDryingPhase();
+    // executeEndDryingPhase();
+
 }
 
 void executeState2() {
     Serial.println("STATE 2 - washing phase");
     // washing cycle 1
     executeWashingCycle();
-    executeWaterRegeneration();
+    // executeWaterRegeneration();
   
     // washing cycle 2
 //    executeWashingCycle();
@@ -61,26 +76,39 @@ void executeMoveToWashingCompartment() {
         
     Serial.println("h stepper backwards");
     moveRailStepperMotorBackwards();
+    cupServoStart();  
 }
 
 
 // Washing Cycle 1 
 void executeWashingCycle() {
-    Serial.println("STATE - First wash cycle");
-    
-    // openValve1();
-    // delay(3000);    
-    // closeValve1();
+  Serial.println("STATE - First wash cycle");
+  
+  // openValve1();
+  // delay(3000);    
+  // closeValve1();
 
-    openValve2();
+  openValve2();
+  onInnerPump();
+  
+  Serial.println("Washing Starts");
+  delay(30000);
     
-    Serial.println("Servo start spinning");
-    cupServoStart();
-    delay(30000);
-    
-    closeValve2();
 }
 
+// End wash cycle
+void executeEndWashingCycle() {
+  cupServoStop();
+  Serial.println("Washing Stops");
+
+  offInnerPump();
+  Serial.println("Water Pump off");
+  closeValve2();
+  Serial.println("STATE - End Washing Cycle");
+  delay(10000);
+  
+}
+/*
 // Water Regeneration 
 void executeWaterRegeneration() {
     Serial.println("STATE - Water Regeneration");
@@ -109,17 +137,8 @@ void executeWaterRegeneration() {
     closeValve3();
     delay(3000);
 }
+*/
 
-// End wash cycle
-void executeEndWashingCycle() {
-  Serial.println("STATE - End Washing Cycle");
-  Serial.println("Water Pump off");
-  // TODO
-  delay(3000);
-  
-  Serial.println("Cup servo actuator off");
-  cupServoStop();
-}
 
 // Move to drying compartment
 void executeMoveToDryingCompartment() {
@@ -135,6 +154,7 @@ void executeMoveToDryingCompartment() {
 void executeSetupDryingPhase() {
   Serial.println("STATE - Set Up Drying Phase");
   Serial.println("Fan stepper move up");
+  fanServoL.write(125);
   moveFanStepperMotorUp();
   delay(3000); 
 
@@ -150,12 +170,18 @@ void executeDryingPhase() {
 
   Serial.println("Fan ON");
   startFans();
-  delay(5000); // fan blows for 5 seconds
 
-
-  Serial.println("Fan stepper move down ");
+  for (int i=0; i<3; i++){
+    moveFanStepperMotorDownSlow();
+    delay(1000*(i+1));
+    moveFanStepperMotorUp();
+  }  
   moveFanStepperMotorDown();
-  delay(3000); 
+  // executeCupDryingMode();
+  
+  Serial.println("Fan stepper move down ");
+  // moveFanStepperMotorDown();
+  
 }
 
 
