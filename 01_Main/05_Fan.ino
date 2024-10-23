@@ -10,15 +10,17 @@ void setupFanRelay() {
   pinMode(R_OUTER_FAN_PIN, OUTPUT);
 }
 
-void startInternalFans() {
-  // digitalWrite(L_INNER_FAN_PIN, HIGH);
-  digitalWrite(R_INNER_FAN_PIN, HIGH);
-  // digitalWrite(L_OUTER_FAN_PIN, HIGH);
-  digitalWrite(R_OUTER_FAN_PIN, HIGH);
+void startFans() {
+  digitalWrite(L_INNER_FAN_PIN, HIGH);
+  // digitalWrite(R_INNER_FAN_PIN, HIGH);
+  digitalWrite(L_OUTER_FAN_PIN, HIGH);
+  // digitalWrite(R_OUTER_FAN_PIN, HIGH);
 }
 
-void stopInternalFans() {
+void stopFans() {
   digitalWrite(L_INNER_FAN_PIN, LOW);
-  digitalWrite(R_INNER_FAN_PIN, LOW);
+  // digitalWrite(R_INNER_FAN_PIN, LOW);
+  digitalWrite(L_OUTER_FAN_PIN, LOW);
+  // digitalWrite(R_OUTER_FAN_PIN, LOW);
 } 
 
