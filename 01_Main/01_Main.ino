@@ -52,9 +52,11 @@ void moveLeftFanStepperMotorUp();
 void moveRightFanStepperMotorUp();
 void moveLeftFanStepperMotorDown();
 void moveRightFanStepperMotorDown();
+int stepLeftStepperDown();
+int stepLeftStepperUp();
 void moveFanStepperMotorDownSlow();
 void executeCupDryingMode();
-bool fanStepperDryingMode();
+bool leftFanStepperDryingMode();
 
 // 03_ServoMotorControl
 void setupServoMotor();

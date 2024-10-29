@@ -5,14 +5,12 @@
 void executeState1() {
   // readButtonInput();  
   executeInitialisation();
-  // moveRailStepperMotorBackwards();
-  moveLeftFanStepperMotorUp();
-  // moveFanStepperMotorDown();
+  executeDryingPhase();
+  // moveLeftFanStepperMotorDown();
+  
   // moveRailStepperMotorForward();
-  // moveRightFanStepperMotorUp();
   // moveRightFanStepperMotorDown();
   // cupServoStart();
-  // executeDryingPhase();
   // executeMoveToWashingCompartment();
   // executeWashingCycle();
   // executeEndWashingCycle();
@@ -173,9 +171,35 @@ void executeDryingPhase() {
   // continuously loop until all done
   bool servoDone = false;
   bool stepperDone = false;
-  while (!servoDone && !stepperDone){
-    // servoDone = fanServoDryingMode();
-    stepperDone = leftFanStepperDryingMode();
+  bool stepperDownDone = false;
+  int stepperState = 0;
+  int stepperCount = 0;
+  digitalWrite(L_FAN_SLEEP_PIN, HIGH);
+  while (!servoDone && stepperState!=3){
+    
+    // if (!stepperDownDone){
+    //   stepperDownDone = stepLeftStepperDown();
+    // }
+    // else (stepperDownDone) {
+    //   stepperDownDone = stepLeftStepperDown();
+    // }
+    if (stepperState == 0){
+      Serial.println("Stepper step up");
+      digitalWrite(L_FAN_SLEEP_PIN, HIGH);
+      stepperState = stepLeftStepperUp();
+    }
+    else if (stepperState == 1){
+      stepperCount++;
+      Serial.println("Stepper step down");
+      digitalWrite(L_FAN_SLEEP_PIN, HIGH);
+      stepperState = stepLeftStepperDown();
+      if (stepperCount<2){
+        stepperState == 0; // go down and come up = 1 cycle. Do 2 cycles
+      } 
+      else{
+        stepperState == 3; // stepper is done
+      } 
+    }
   }
 }
 
