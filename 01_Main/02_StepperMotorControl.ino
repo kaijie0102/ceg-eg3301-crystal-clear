@@ -1,6 +1,11 @@
 const int RAIL_LENGTH = 950; // Number of steps per output rotation
 const int CUP_HEIGHT = 3850; // Number of steps per output rotation
 
+unsigned long previousStepperMicros = 0;
+int stepperStepCount = 0;
+const unsigned long stepperDelay = 5000; // Delay for each step in microseconds
+
+
 void setupRailStepperMotor() {
   pinMode(RAIL_DIR_PIN, OUTPUT);
   pinMode(RAIL_STEP_PIN, OUTPUT);
@@ -11,6 +16,10 @@ void setupFanStepperMotor() {
   pinMode(L_FAN_DIR_PIN, OUTPUT);
   pinMode(L_FAN_STEP_PIN, OUTPUT);
   pinMode(L_FAN_SLEEP_PIN, OUTPUT);
+  
+  pinMode(R_FAN_DIR_PIN, OUTPUT);
+  pinMode(R_FAN_STEP_PIN, OUTPUT);
+  pinMode(R_FAN_SLEEP_PIN, OUTPUT);
 }
 
 void moveRailStepperMotorBackwards() {
@@ -40,20 +49,34 @@ void moveRailStepperMotorForward() {
 
 }
 
-void moveFanStepperMotorUp() {
+void moveLeftFanStepperMotorUp() {
   digitalWrite(L_FAN_DIR_PIN, LOW);
   digitalWrite(L_FAN_SLEEP_PIN, HIGH);
+  
   for(int x = 0; x < CUP_HEIGHT; x++)
 	{
 		digitalWrite(L_FAN_STEP_PIN, HIGH);
 		delayMicroseconds(2000);
-		digitalWrite(L_FAN_STEP_PIN, LOW);
+    digitalWrite(L_FAN_STEP_PIN, LOW);
 		delayMicroseconds(2000);
 	}
   digitalWrite(L_FAN_SLEEP_PIN, LOW);
 }
 
-void moveFanStepperMotorDown() {
+void moveRightFanStepperMotorUp() {
+  digitalWrite(R_FAN_DIR_PIN, LOW);
+  digitalWrite(R_FAN_SLEEP_PIN, HIGH);
+  for(int x = 0; x < CUP_HEIGHT; x++)
+	{
+		digitalWrite(R_FAN_STEP_PIN, HIGH);
+		delayMicroseconds(2000);
+		digitalWrite(R_FAN_STEP_PIN, LOW);
+		delayMicroseconds(2000);
+	}
+  digitalWrite(R_FAN_SLEEP_PIN, LOW);
+}
+
+void moveLeftFanStepperMotorDown() {
   digitalWrite(L_FAN_DIR_PIN, HIGH);
   digitalWrite(L_FAN_SLEEP_PIN, HIGH);
   for(int x = 0; x < CUP_HEIGHT; x++)
@@ -66,24 +89,60 @@ void moveFanStepperMotorDown() {
   digitalWrite(L_FAN_SLEEP_PIN, LOW);
 }
 
-void moveFanStepperMotorDownSlow() {
-  digitalWrite(L_FAN_DIR_PIN, HIGH);
-  digitalWrite(L_FAN_SLEEP_PIN, HIGH);
+void moveRightFanStepperMotorDown() {
+  digitalWrite(R_FAN_DIR_PIN, HIGH);
+  digitalWrite(R_FAN_SLEEP_PIN, HIGH);
   for(int x = 0; x < CUP_HEIGHT; x++)
 	{
-		digitalWrite(L_FAN_STEP_PIN, HIGH);
-		delayMicroseconds(5000);
-		digitalWrite(L_FAN_STEP_PIN, LOW);
-		delayMicroseconds(5000);
+		digitalWrite(R_FAN_STEP_PIN, HIGH);
+		delayMicroseconds(2000);
+		digitalWrite(R_FAN_STEP_PIN, LOW);
+		delayMicroseconds(2000);
 	}
-  digitalWrite(L_FAN_SLEEP_PIN, LOW);
+  digitalWrite(R_FAN_SLEEP_PIN, LOW);
 }
 
-void executeCupDryingMode() {
-  for (int i=0; i<3; i++){
-    moveFanStepperMotorDownSlow();
-    delay(1000*(i+1));
-    moveFanStepperMotorUp();
-  }  
-  moveFanStepperMotorDown();
+// void moveFanStepperMotorDownSlow() {
+//   digitalWrite(L_FAN_DIR_PIN, HIGH);
+//   digitalWrite(L_FAN_SLEEP_PIN, HIGH);
+//   for(int x = 0; x < CUP_HEIGHT; x++)
+// 	{
+// 		digitalWrite(L_FAN_STEP_PIN, HIGH);
+// 		delayMicroseconds(5000);
+// 		digitalWrite(L_FAN_STEP_PIN, LOW);
+// 		delayMicroseconds(5000);
+// 	}
+//   digitalWrite(L_FAN_SLEEP_PIN, LOW);
+// }
+
+bool fanStepperDryingMode(){
+  // Handle stepper motor movement
+  
+  unsigned long currentMicros = micros();
+  if (currentMicros - previousStepperMicros >= stepperDelay) {
+    previousStepperMicros = currentMicros;
+    digitalWrite(L_FAN_STEP_PIN, HIGH);
+    delayMicroseconds(1); // Brief pulse to step
+    digitalWrite(L_FAN_STEP_PIN, LOW);
+    delayMicroseconds(1); // Brief pulse to step
+    
+    stepperStepCount++;
+    if (stepperStepCount >= CUP_HEIGHT) {
+      digitalWrite(L_FAN_SLEEP_PIN, LOW);
+      return true; // Stop stepper when done
+    }
+
+    return false;
+  }
+  
 }
+
+// void executeCupDryingMode() {
+//   for (int i=0; i<3; i++){
+//     moveFanStepperMotorDownSlow();
+//     delay(1000*(i+1));
+//     moveFanStepperMotorUp();
+//   }  
+//   moveFanStepperMotorDown();
+// }
+

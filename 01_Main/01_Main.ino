@@ -12,12 +12,12 @@
 #define RAIL_DIR_PIN 21
 #define RAIL_STEP_PIN 20
 #define RAIL_SLEEP_PIN 19
-#define L_FAN_DIR_PIN 5 //11 
-#define L_FAN_STEP_PIN 6 //12 
-#define L_FAN_SLEEP_PIN 7// 13 
-// #define R_FAN_DIR_PIN 5
-// #define R_FAN_STEP_PIN 6 
-// #define R_FAN_SLEEP_PIN 7
+#define L_FAN_DIR_PIN 11 
+#define L_FAN_STEP_PIN 12 
+#define L_FAN_SLEEP_PIN 13 
+#define R_FAN_DIR_PIN 5
+#define R_FAN_STEP_PIN 6 
+#define R_FAN_SLEEP_PIN 7
 
 // Fans
 #define L_INNER_FAN_PIN 23 // relay for inner fan
@@ -48,16 +48,20 @@ void setupRailStepperMotor();
 void setupFanStepperMotor();
 void moveRailStepperMotorBackwards();
 void moveRailStepperMotorForward();
-void moveFanStepperMotorUp();
-void moveFanStepperMotorDown();
+void moveLeftFanStepperMotorUp();
+void moveRightFanStepperMotorUp();
+void moveLeftFanStepperMotorDown();
+void moveRightFanStepperMotorDown();
 void moveFanStepperMotorDownSlow();
 void executeCupDryingMode();
+bool fanStepperDryingMode();
 
 // 03_ServoMotorControl
 void setupServoMotor();
 void cupServoStart();
 void fanServoStart();
 void cupServoStop();
+bool leftFanServoDryingMode();
 
 // 05_Ui
 void setupUi();

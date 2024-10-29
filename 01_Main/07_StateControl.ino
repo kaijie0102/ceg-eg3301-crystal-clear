@@ -5,14 +5,19 @@
 void executeState1() {
   // readButtonInput();  
   executeInitialisation();
-  cupServoStart();
+  // moveRailStepperMotorBackwards();
+  moveLeftFanStepperMotorUp();
+  // moveFanStepperMotorDown();
+  // moveRailStepperMotorForward();
+  // moveRightFanStepperMotorUp();
+  // moveRightFanStepperMotorDown();
+  // cupServoStart();
+  // executeDryingPhase();
   // executeMoveToWashingCompartment();
   // executeWashingCycle();
   // executeEndWashingCycle();
 
-  // moveRailStepperMotorBackwards();
   // fanServoL.write(125);
-  // moveFanStepperMotorUp();
   // delay(3000);
   // moveFanStepperMotorDown();
   // cupServoStart();
@@ -155,7 +160,7 @@ void executeSetupDryingPhase() {
   Serial.println("STATE - Set Up Drying Phase");
   Serial.println("Fan stepper move up");
   fanServoL.write(125);
-  moveFanStepperMotorUp();
+  moveLeftFanStepperMotorUp();
   delay(3000); 
 
   Serial.println("Cup Servo start spinning");
@@ -163,26 +168,43 @@ void executeSetupDryingPhase() {
   delay(3000);
 }
 
-// Drying 
+// Drying Algorithm
 void executeDryingPhase() {
-  Serial.println("STATE - Drying Phase");
-  
-
-  Serial.println("Fan ON");
-  startFans();
-
-  for (int i=0; i<3; i++){
-    moveFanStepperMotorDownSlow();
-    delay(1000*(i+1));
-    moveFanStepperMotorUp();
-  }  
-  moveFanStepperMotorDown();
-  // executeCupDryingMode();
-  
-  Serial.println("Fan stepper move down ");
-  // moveFanStepperMotorDown();
-  
+  // continuously loop until all done
+  bool servoDone = false;
+  bool stepperDone = false;
+  while (!servoDone && !stepperDone){
+    // servoDone = fanServoDryingMode();
+    stepperDone = leftFanStepperDryingMode();
+  }
 }
+
+// // Drying 
+// void executeDryingPhase() {
+//   Serial.println("STATE - Drying Phase");
+  
+//   Serial.println("Fan ON");
+//   startFans();
+
+//   int dry_timer = 60;
+//   // loop to be executed every 0.5s
+//   for (int i=dry_timer; i>=0; i--){
+//     delay(500); 
+//   }
+
+//   // moving the stepper up and down
+//   for (int i=0; i<3; i++){
+//     moveFanStepperMotorDownSlow();
+//     delay(1000*(i+1));
+//     moveFanStepperMotorUp();
+//   }  
+//   moveFanStepperMotorDown();
+//   // executeCupDryingMode();
+  
+//   Serial.println("Fan stepper move down ");
+//   // moveFanStepperMotorDown();
+  
+// }
 
 
 // End of drying phase

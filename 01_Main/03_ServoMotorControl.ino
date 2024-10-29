@@ -7,8 +7,19 @@ Servo fanServoR; // pin 35
 // int servoCounter = 0;  
 
 int SPINNING_SPEED = 70; // 90 to stop, 0 fastest
-int pos = 125;
+int servoStartPos = 125;
+int servoEndPos = 60;
+int servoPos = servoStartPos;
 int done;
+int SERVO_DRYING_REP = 3;
+int servoHold = 0; // start with not holding
+const unsigned long servoDelay = 150; // Delay in milliseconds
+const unsigned long holdDelay = 5000; // Hold at start and end position in milliseconds
+unsigned long previousServoMillis = 0;
+unsigned long servoHoldStart = 0;
+
+
+
 
 void setupServoMotor() {
   // Servo Motor Setup
@@ -37,20 +48,51 @@ void cupServoStop(){
 // }
 
 
-void fanServoStart() {
+// void fanServoStart() {
   
-  for (pos = 125; pos >= 60; pos -= 1) {
-    if (pos == 125 || pos == 60){
-      delay(5000);
+//   for (pos = 125; pos >= 60; pos -= 1) {
+//     if (pos == 125 || pos == 60){
+//       delay(5000);
+//     }
+//     fanServoL.write(pos);
+//     // fanServoR.write(pos);
+//     // cupServoL.write(pos);
+//     delay(150);
+//     if (pos==60 && done!=1){
+//       pos=125;
+//       done = 1;
+//     }
+//   }
+// }
+
+bool leftFanServoDryingMode() {
+  // Handle servo motor movement
+  SERVO_DRYING_REP -= 1;
+  unsigned long currentMillis = millis();
+  if (!servoHold) {
+    if (currentMillis - previousServoMillis >= servoDelay) {
+      previousServoMillis = currentMillis;
+      fanServoL.write(servoPos);
+
+      servoPos--; // Move down
+      if (servoPos <= servoEndPos) {
+        servoHold = true;
+        servoHoldStart = currentMillis;
+      }
     }
-    fanServoL.write(pos);
-    // fanServoR.write(pos);
-    // cupServoL.write(pos);
-    delay(150);
-    if (pos==60 && done!=1){
-      pos=125;
-      done = 1;
+  } else if (servoHold) {
+    // Hold at position before reversing
+    if (currentMillis - servoHoldStart >= holdDelay) {
+      servoPos = servoStartPos; // Reset to start
+      servoHold = false;         // Resume movement
+      previousServoMillis = currentMillis;
     }
+  }  
+
+  if (SERVO_DRYING_REP==0){
+    return true;
   }
+  return false;
+  
 }
 
