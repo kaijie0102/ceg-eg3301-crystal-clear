@@ -64,6 +64,7 @@ void cupServoStart();
 void fanServoStart();
 void cupServoStop();
 bool leftFanServoDryingMode();
+bool moveLeftServoInSteps();
 
 // 05_Ui
 void setupUi();
@@ -90,6 +91,7 @@ void executeState1();
 void executeState2();
 void executeState3();
 void executeState4();
+void executeTeardown();
 
 void setup() {
 

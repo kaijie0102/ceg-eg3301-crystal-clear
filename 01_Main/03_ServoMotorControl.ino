@@ -7,14 +7,15 @@ Servo fanServoR; // pin 35
 // int servoCounter = 0;  
 
 int SPINNING_SPEED = 70; // 90 to stop, 0 fastest
-int servoStartPos = 125;
-int servoEndPos = 60;
-int servoPos = servoStartPos;
+int servoTopPos = 125;
+int servoBottomPos = 60;
+int servoPos = servoTopPos;
 int done;
-int SERVO_DRYING_REP = 3;
-int servoHold = 0; // start with not holding
+int SERVO_DRYING_REPS = 3;
+int servoCount;
+int lServoDir = 0; // start with up all the way
 const unsigned long servoDelay = 150; // Delay in milliseconds
-const unsigned long holdDelay = 5000; // Hold at start and end position in milliseconds
+const unsigned long holdDelay = 5; // Hold at start and end position in milliseconds
 unsigned long previousServoMillis = 0;
 unsigned long servoHoldStart = 0;
 
@@ -65,34 +66,44 @@ void cupServoStop(){
 //   }
 // }
 
-bool leftFanServoDryingMode() {
-  // Handle servo motor movement
-  SERVO_DRYING_REP -= 1;
-  unsigned long currentMillis = millis();
-  if (!servoHold) {
-    if (currentMillis - previousServoMillis >= servoDelay) {
-      previousServoMillis = currentMillis;
+bool moveLeftServoInSteps() {
+  if (lServoDir == 0){ // blowing from top to bottom
+    Serial.println("Blowing top down");
+    if (servoPos == servoTopPos){
       fanServoL.write(servoPos);
-
-      servoPos--; // Move down
-      if (servoPos <= servoEndPos) {
-        servoHold = true;
-        servoHoldStart = currentMillis;
+      delay(5000);
+      servoPos--;
+    } else {
+      fanServoL.write(servoPos);
+      servoPos = servoPos-1;
+    }
+    
+    if (servoPos == servoBottomPos) {
+      if (servoCount < SERVO_DRYING_REPS){
+        servoCount++;
+        lServoDir = 1;
+      } else{
+        return true; // stepper algo is complete
       }
     }
-  } else if (servoHold) {
-    // Hold at position before reversing
-    if (currentMillis - servoHoldStart >= holdDelay) {
-      servoPos = servoStartPos; // Reset to start
-      servoHold = false;         // Resume movement
-      previousServoMillis = currentMillis;
+  } else { // blowing bottom to top. lServoDir == 1
+    Serial.println("Blowing bottom up");
+    if (servoPos == servoBottomPos){
+      fanServoL.write(servoPos);
+      delay(5000);
+      servoPos++;
+    } else {
+      fanServoL.write(servoPos);
+      servoPos++;
     }
-  }  
 
-  if (SERVO_DRYING_REP==0){
-    return true;
+    if (servoPos == servoTopPos) {
+      lServoDir = 0; // if on top, must go down
+      
+    }
   }
   return false;
-  
 }
+
+
 

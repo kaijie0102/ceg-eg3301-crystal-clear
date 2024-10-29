@@ -5,6 +5,9 @@ const int CUP_HEIGHT = 2000; // Number of steps per output rotation
 unsigned long previousStepperMicros = 0;
 int stepperStepCount = 0;
 const unsigned long stepperDelay = 5000; // Delay for each step in microseconds
+int lStepperDir = 1;
+int stepperCount = 0;
+int STEPPER_REPS = 2;
 
 
 void setupRailStepperMotor() {
@@ -103,43 +106,83 @@ void moveRightFanStepperMotorDown() {
   digitalWrite(R_FAN_SLEEP_PIN, LOW);
 }
 
-int stepLeftStepperUp() {
-  digitalWrite(L_FAN_DIR_PIN, LOW);
+int moveLeftStepperInSteps() {
+  // go down
+  if (lStepperDir == 0){
+    digitalWrite(L_FAN_DIR_PIN, HIGH);
   
-  for (int i=0; i<5;i++){
-    digitalWrite(L_FAN_STEP_PIN, HIGH);
-    delayMicroseconds(2000);
-    digitalWrite(L_FAN_STEP_PIN, LOW);
-    delayMicroseconds(2000);
-  }
-	
-  stepperStepCount = stepperStepCount + 5 ;
-  if (stepperStepCount >= CUP_HEIGHT) {
-    digitalWrite(L_FAN_SLEEP_PIN, LOW);
-    return 1; // Stop stepper when done
-  }
+    for (int i=0; i<5;i++){
+      digitalWrite(L_FAN_STEP_PIN, HIGH);
+      delayMicroseconds(2000);
+      digitalWrite(L_FAN_STEP_PIN, LOW);
+      delayMicroseconds(2000);
+    }
+    
+    stepperStepCount = stepperStepCount - 5;
+    if (stepperStepCount < 0) {
+      stepperCount++;
+      if (stepperCount < STEPPER_REPS){
+        lStepperDir = 1;
+      } else {
+        return true; // stepper algo is complete
+      }
+    }    
+  } else { // going up
+    digitalWrite(L_FAN_DIR_PIN, LOW);
+    for (int i=0; i<5;i++){
+      digitalWrite(L_FAN_STEP_PIN, HIGH);
+      delayMicroseconds(2000);
+      digitalWrite(L_FAN_STEP_PIN, LOW);
+      delayMicroseconds(2000);
+    }
+    
+    stepperStepCount = stepperStepCount + 5 ;
+    if (stepperStepCount >= CUP_HEIGHT) {
+      lStepperDir = 0;
+    }
 
-  return 0;
+    return false; // stepper is not done
+  }
+  
 }
 
-int stepLeftStepperDown() {
-  digitalWrite(L_FAN_DIR_PIN, HIGH);
+// int stepLeftStepperUp() {
+//   digitalWrite(L_FAN_DIR_PIN, LOW);
   
-  for (int i=0; i<5;i++){
-    digitalWrite(L_FAN_STEP_PIN, HIGH);
-    delayMicroseconds(2000);
-    digitalWrite(L_FAN_STEP_PIN, LOW);
-    delayMicroseconds(2000);
-  }
+//   for (int i=0; i<5;i++){
+//     digitalWrite(L_FAN_STEP_PIN, HIGH);
+//     delayMicroseconds(2000);
+//     digitalWrite(L_FAN_STEP_PIN, LOW);
+//     delayMicroseconds(2000);
+//   }
 	
-  stepperStepCount = stepperStepCount - 5;
-  if (stepperStepCount < 0) {
-    digitalWrite(L_FAN_SLEEP_PIN, LOW);
-    return 2; // Stop stepper when done
-  }
+//   stepperStepCount = stepperStepCount + 5 ;
+//   if (stepperStepCount >= CUP_HEIGHT) {
+//     digitalWrite(L_FAN_SLEEP_PIN, LOW);
+//     return 1; // Stop stepper when done
+//   }
 
-  return 1;
-}
+//   return 0;
+// }
+
+// int stepLeftStepperDown() {
+//   digitalWrite(L_FAN_DIR_PIN, HIGH);
+  
+//   for (int i=0; i<5;i++){
+//     digitalWrite(L_FAN_STEP_PIN, HIGH);
+//     delayMicroseconds(2000);
+//     digitalWrite(L_FAN_STEP_PIN, LOW);
+//     delayMicroseconds(2000);
+//   }
+	
+//   stepperStepCount = stepperStepCount - 5;
+//   if (stepperStepCount < 0) {
+//     digitalWrite(L_FAN_SLEEP_PIN, LOW);
+//     return 2; // Stop stepper when done
+//   }
+
+//   return 1;
+// }
 
 // void moveFanStepperMotorDownSlow() {
 //   digitalWrite(L_FAN_DIR_PIN, HIGH);
