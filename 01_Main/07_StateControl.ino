@@ -174,9 +174,10 @@ void executeDryingPhase() {
   bool stepperDownDone = false;
   int stepperState = 0;
   // int stepperCount = 0;
+  digitalWrite(L_FAN_SLEEP_PIN, HIGH);
   while (!servoDone && !stepperDone){
-    // stepperDone = moveLeftStepperInSteps();
-    servoDone = moveLeftServoInSteps();
+    stepperDone = moveLeftStepperInSteps();
+    // servoDone = moveLeftServoInSteps();
   }
 }
 

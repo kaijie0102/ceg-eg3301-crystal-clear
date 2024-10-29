@@ -1,26 +1,15 @@
 Servo cupServoL;  // pin 3 create continuous servo object
 Servo cupServoR;  // pin 4 create continuous servo object
 Servo fanServoL; // pin 33
-Servo fanServoR; // pin 35
-// unsigned long timer; 
-// static const unsigned long timeout = 7500; // loop ends after specified duration
-// int servoCounter = 0;  
+Servo fanServoR; // pin 35  
 
 int SPINNING_SPEED = 70; // 90 to stop, 0 fastest
 int servoTopPos = 125;
 int servoBottomPos = 60;
 int servoPos = servoTopPos;
-int done;
 int SERVO_DRYING_REPS = 3;
 int servoCount;
 int lServoDir = 0; // start with up all the way
-const unsigned long servoDelay = 150; // Delay in milliseconds
-const unsigned long holdDelay = 5; // Hold at start and end position in milliseconds
-unsigned long previousServoMillis = 0;
-unsigned long servoHoldStart = 0;
-
-
-
 
 void setupServoMotor() {
   // Servo Motor Setup
@@ -67,6 +56,7 @@ void cupServoStop(){
 // }
 
 bool moveLeftServoInSteps() {
+  Serial.println("In servo");
   if (lServoDir == 0){ // blowing from top to bottom
     Serial.println("Blowing top down");
     if (servoPos == servoTopPos){
