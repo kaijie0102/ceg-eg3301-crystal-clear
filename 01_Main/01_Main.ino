@@ -5,6 +5,7 @@
 // Define PCB Pins
 // General 
 #define BUTTON_PIN 16   // Pin where the push button is connected
+#define BUTTON_LED_PIN 18 //  button led
 #define L_CUPSERVO_PIN 15 // Label: Cup Servo 1
 #define R_CUPSERVO_PIN 14 // Label: Fan Servo 2
 
@@ -40,10 +41,7 @@ enum State {
 };  
 State currentState = STATE_1;
 
-// 02_PowerControl
-// void setupRelay();
-
-// 03_StepperMotorControl
+// 02_StepperMotorControl
 void setupRailStepperMotor();
 void setupFanStepperMotor();
 void moveRailStepperMotorBackwards();
@@ -61,16 +59,20 @@ void cupServoStop();
 bool leftFanServoDryingMode();
 bool moveLeftServoInSteps();
 
-// 05_Ui
+// 04_Ui
 void setupUi();
 void readButtonInput();
+void ledOn();
+void ledOff();
 
-// 06_Fan
+// 05_Fan
 void setupFanRelay();
-void startFans();
-void stopInternalFans();
+void startInnerFans();
+void startOuterFans();
+void stopInnerFans();
+void stopOuterFans();
 
-// 07_SolenoidValveControl
+// 06_SolenoidValveControl
 void setupSolenoidValve();
 void openValve1();
 void openValve2();
@@ -81,11 +83,22 @@ void closeValve3();
 void onInnerPump();
 void offInnerPump();
 
-// 08_StateControl
+// 07_StateControl
 void executeState1();
 void executeState2();
 void executeState3();
 void executeState4();
+void executeWashingOnly();
+void executeDryingOnly();
+void executeInitialisation();
+void executeMoveToWashingCompartment();
+void executeWashingCycle();
+void executeEndWashingCycle();
+void executeWaterRegeneration();
+void executeMoveToDryingCompartment();
+void executeSetupDryingPhase();
+void executeDryingPhase();
+void executeEndDryingPhase();
 void executeTeardown();
 
 void setup() {

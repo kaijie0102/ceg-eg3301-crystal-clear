@@ -3,13 +3,16 @@ Servo cupServoR;  // pin 4 create continuous servo object
 Servo fanServoL; // pin 33
 Servo fanServoR; // pin 35  
 
-int SPINNING_SPEED = 70; // 90 to stop, 0 fastest
+int SPINNING_SPEED = 80; // 90 to stop, 0 fastest
 int servoTopPos = 125;
-int servoBottomPos = 60;
+int servoBottomPos = 40;
 int servoPos = servoTopPos;
 int SERVO_DRYING_REPS = 3;
-int servoCount;
-int lServoDir = 0; // start with up all the way
+int servoDryingCount;
+int lServoDir = 0; // start with top down 
+int servoMicroSteps = 0; // every servoMicroSteps, +1 to servoPos, and change angle 
+
+int done = 0; 
 
 void setupServoMotor() {
   // Servo Motor Setup
@@ -20,9 +23,11 @@ void setupServoMotor() {
 }
 
 void cupServoStart(){
-  cupServoL.write(0); 
-  delay(2000);
-  cupServoL.write(SPINNING_SPEED); 
+  for (int i=0; i<=SPINNING_SPEED; i+=10) {
+    cupServoL.write(i); 
+    delay(200);
+  }
+  // cupServoL.write(SPINNING_SPEED); 
   // cupServoR.write(SPINNING_SPEED); 
   
 }
@@ -32,56 +37,57 @@ void cupServoStop(){
   // cupServoR.write(90);
 }
 
-
-// void fanServoPanDown(){
-
-// }
-
-
-// void fanServoStart() {
-  
-//   for (pos = 125; pos >= 60; pos -= 1) {
-//     if (pos == 125 || pos == 60){
-//       delay(5000);
-//     }
-//     fanServoL.write(pos);
-//     // fanServoR.write(pos);
-//     // cupServoL.write(pos);
-//     delay(150);
-//     if (pos==60 && done!=1){
-//       pos=125;
-//       done = 1;
-//     }
-//   }
-// }
+void fanServoStart() {
+  Serial.println("In servo fan");
+  for (servoPos = 125; servoPos >= 60; servoPos -= 1) {
+    if (servoPos == 125 || servoPos == 60){
+      delay(5000);
+    }
+    fanServoL.write(servoPos);
+    delay(150);
+    if (servoPos==60 && done!=1){
+      servoPos=125;
+      done = 1;
+    }
+  }
+}
 
 bool moveLeftServoInSteps() {
-  Serial.println("In servo");
   if (lServoDir == 0){ // blowing from top to bottom
-    Serial.println("Blowing top down");
     if (servoPos == servoTopPos){
-      fanServoL.write(servoPos);
-      delay(5000);
-      servoPos--;
-    } else {
-      fanServoL.write(servoPos);
+      
+      if (servoMicroSteps > 500) {
+        // delay is complete, start moving down
+        servoPos--; 
+        servoMicroSteps = 0;
+      } 
+      servoMicroSteps++;
+    } else if (servoMicroSteps == 20 ){
+      
+      servoMicroSteps=0; // reset to 0
+      fanServoL.write(servoPos); // change angle of servo
       servoPos = servoPos-1;
+    } else {
+      servoMicroSteps++;
     }
     
     if (servoPos == servoBottomPos) {
-      if (servoCount < SERVO_DRYING_REPS){
-        servoCount++;
+      servoDryingCount++;
+      if (servoDryingCount < SERVO_DRYING_REPS){
         lServoDir = 1;
       } else{
-        return true; // stepper algo is complete
+        return true; // servo algo is complete
       }
     }
   } else { // blowing bottom to top. lServoDir == 1
-    Serial.println("Blowing bottom up");
     if (servoPos == servoBottomPos){
-      fanServoL.write(servoPos);
-      delay(5000);
-      servoPos++;
+      
+      if (servoMicroSteps > 500) {
+        // delay is complete, start moving up
+        servoPos++; 
+        servoMicroSteps = 0;
+      }
+      servoMicroSteps++;
     } else {
       fanServoL.write(servoPos);
       servoPos++;

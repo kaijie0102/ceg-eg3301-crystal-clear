@@ -4,9 +4,15 @@ int lastButtonState = 1;    // Variable to store the last button state
 const int debounceDelay = 50;  // Debouncing time in milliseconds
 unsigned long lastDebounceTime = 0;  // Last time the button state changed
 
+// for blinky
+int blinky_timer = 20000;
+int blinky_count = 0;
+int blinky_on; // 0=off, 1=on
+
 void setupUi() {
   // Button Setup
   pinMode(BUTTON_PIN, INPUT_PULLUP);  // Enable the internal pull-up resistor for the button  
+  pinMode(BUTTON_LED_PIN, OUTPUT);
 }
 
 void readButtonInput() {
@@ -15,6 +21,19 @@ void readButtonInput() {
   // Wait until button is pressed and debounced
   while (true) {
     int reading = digitalRead(BUTTON_PIN); // Active Low 
+
+    if (blinky_count == blinky_timer) {
+      blinky_on = ~blinky_on;
+      blinky_count = 0; // reset counter
+      if (blinky_on) {
+        digitalWrite(BUTTON_LED_PIN, HIGH);
+      }
+      else {
+        digitalWrite(BUTTON_LED_PIN, LOW);
+      }
+    } else {
+      blinky_count++ ;
+    } // increment counter by 1
 
     // If the button state has changed (i.e., different from last read)
     if (reading != lastButtonState) { // if reading become 0
@@ -40,3 +59,14 @@ void readButtonInput() {
   
 }
 
+void ledOn() {
+  digitalWrite(BUTTON_LED_PIN, HIGH);
+}
+
+void ledOff() {
+  digitalWrite(BUTTON_LED_PIN, LOW);
+}
+
+// void blinky() {
+  
+// }
