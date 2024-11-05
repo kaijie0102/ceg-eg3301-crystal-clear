@@ -3,11 +3,15 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void executeState1() {
+  ledStandbyMode();
   executeInitialisation();
-  
+  ledWashMode();
+  delay(5000);
+  ledDryMode();
   executeSetupDryingPhase();
-  executeDryingPhase();
-  executeEndDryingPhase();
+  ledCompleteMode();
+  // executeDryingPhase();
+  // executeEndDryingPhase();
 
   // moveLeftServoInSteps();
   // moveLeftFanStepperMotorDown();
@@ -148,10 +152,13 @@ void executeMoveToDryingCompartment() {
 void executeSetupDryingPhase() {
   Serial.println("STATE - Set Up Drying Phase");
   // Serial.println("Fan stepper move up");
-  fanServoL.write(125);
-  moveLeftFanStepperMotorUp();
-  startInnerFans();
-  startOuterFans();
+  fanServoL.write(SERVO_TOP_POS);
+  fanServoR.write(SERVO_TOP_POS);
+  // moveLeftFanStepperMotorUp();
+  // moveRightFanStepperMotorUp();
+  moveFanStepperMotorsUp();
+  // startInnerFans();
+  // startOuterFans();
   delay(1000); 
 
   // Serial.println("Cup Servo start spinning");
@@ -167,18 +174,17 @@ void executeDryingPhase() {
   bool servoDone = false;
   bool stepperDone = false;
   digitalWrite(L_FAN_SLEEP_PIN, HIGH);
+  digitalWrite(R_FAN_SLEEP_PIN, HIGH);
   while (!servoDone || !stepperDone) {
     if (!stepperDone) {
-      stepperDone = moveLeftStepperInSteps();
+      // stepperDone = moveLeftStepperInSteps();
+      stepperDone = moveFanStepperInSteps();
     }
     if (!servoDone) {
       servoDone = moveLeftServoInSteps();
+      // servoDone = moveFanServoInSteps();
     }
-    // Serial.print("servoDone: ");
-    // Serial.println(servoDone);
-    // Serial.print("stepperDone: ");
-    // Serial.println(stepperDone);
-  }
+  }  
   Serial.println("Drying Finished");
 }
 
@@ -192,6 +198,9 @@ void executeEndDryingPhase() {
   Serial.println("Fan OFF");
   Serial.print("State Number: ");
   Serial.println(currentState);
+  
+  // reset all variables
+  resetVariables();
 }
 
 void executeTeardown() {
@@ -200,4 +209,18 @@ void executeTeardown() {
   closeValve3();
   Serial.println("Cleaning finished");
   Serial.println("===============");
+}
+
+void resetVariables() {
+  // reset stepper variables
+  stepperHoldCounter = 0;
+  stepperCycleRepCount = 0;
+  lStepperDir = 0;
+  stepperStepCount = CUP_HEIGHT+1;
+
+  // reset servo variables 
+  servoDryingCount = 0; // reset to zero once done
+  servoPos = SERVO_TOP_POS; // the next time it will start at the top
+  servoMicroSteps = 0;
+  lServoDir = 0; // reset direction to start with top down
 }

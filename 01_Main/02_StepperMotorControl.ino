@@ -85,6 +85,23 @@ void moveRightFanStepperMotorUp() {
   digitalWrite(R_FAN_SLEEP_PIN, LOW);
 }
 
+void moveFanStepperMotorsUp() {
+  digitalWrite(L_FAN_DIR_PIN, LOW);
+  digitalWrite(L_FAN_SLEEP_PIN, HIGH);
+  digitalWrite(R_FAN_DIR_PIN, LOW);
+  digitalWrite(R_FAN_SLEEP_PIN, HIGH);
+  for(int x = 0; x < CUP_HEIGHT; x++)
+	{
+    digitalWrite(L_FAN_STEP_PIN, HIGH);
+		digitalWrite(R_FAN_STEP_PIN, HIGH);
+		delayMicroseconds(2000);
+    digitalWrite(L_FAN_STEP_PIN, LOW);
+		digitalWrite(R_FAN_STEP_PIN, LOW);
+		delayMicroseconds(2000);
+	}
+  digitalWrite(R_FAN_SLEEP_PIN, LOW);
+}
+
 void moveLeftFanStepperMotorDown() {
   digitalWrite(L_FAN_DIR_PIN, HIGH);
   digitalWrite(L_FAN_SLEEP_PIN, HIGH);
@@ -111,7 +128,7 @@ void moveRightFanStepperMotorDown() {
   digitalWrite(R_FAN_SLEEP_PIN, LOW);
 }
 
-int moveLeftStepperInSteps() {
+bool moveLeftStepperInSteps() {
   // go down
   if (lStepperDir == 0){
     digitalWrite(L_FAN_DIR_PIN, HIGH);
@@ -167,6 +184,66 @@ int moveLeftStepperInSteps() {
 
   return false; // stepper is not done
   
+}
+
+bool moveFanStepperInSteps() {
+  // go down
+  if (lStepperDir == 0){
+    digitalWrite(L_FAN_DIR_PIN, HIGH);
+    digitalWrite(R_FAN_DIR_PIN, HIGH);
+
+    // Hold at the top
+    if (stepperStepCount == CUP_HEIGHT+1) {
+      if (stepperHoldCounter == STEPPER_HOLD_TIME){
+        stepperStepCount--; // -1 to start at CUP_HEIGHT
+        stepperHoldCounter = 0;
+      } else {
+        stepperHoldCounter++;
+        delay(100);
+      }
+    } else { // move stepper if not at the top of the cup
+      for (int i=0; i<STEPPER_DOWN_BURST;i++){
+        digitalWrite(L_FAN_STEP_PIN, HIGH);
+        digitalWrite(R_FAN_STEP_PIN, HIGH);
+        delayMicroseconds(STEPPER_DOWN_DELAY);
+        digitalWrite(L_FAN_STEP_PIN, LOW);
+        digitalWrite(R_FAN_STEP_PIN, LOW);
+        delayMicroseconds(STEPPER_DOWN_DELAY);
+      }
+      stepperStepCount = stepperStepCount - STEPPER_DOWN_BURST;
+    }
+    
+    if (stepperStepCount < 0) {
+      stepperCycleRepCount++;
+      if (stepperCycleRepCount < STEPPER_CYCLE_REPS){
+        Serial.println("Proceed to move up");
+        stopInnerFans(); // stop fan from blowing
+        lStepperDir = 1; // stepper algo not complete, swap direction to go up
+      } else {
+        return true; // stepper algo is complete
+      }
+    }    
+  } else { // going up
+    digitalWrite(L_FAN_DIR_PIN, LOW);
+    digitalWrite(R_FAN_DIR_PIN, LOW);
+    for (int i=0; i<STEPPER_UP_BURST;i++){
+      digitalWrite(L_FAN_STEP_PIN, HIGH);
+      digitalWrite(R_FAN_STEP_PIN, HIGH);
+      delayMicroseconds(STEPPER_UP_DELAY);
+      digitalWrite(L_FAN_STEP_PIN, LOW);
+      digitalWrite(R_FAN_STEP_PIN, LOW);
+      delayMicroseconds(STEPPER_UP_DELAY);
+    }
+    
+    stepperStepCount = stepperStepCount + STEPPER_UP_BURST ;
+    if (stepperStepCount >= CUP_HEIGHT) {
+      startInnerFans(); // start fans again
+      stepperStepCount = CUP_HEIGHT+1; // hold the fan at the top
+      lStepperDir = 0; // Swap direction to go down
+      Serial.println("Proceed to move down"); 
+    }
+  }
+  return false; // stepper is not done
 }
 
 

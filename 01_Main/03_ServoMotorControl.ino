@@ -4,9 +4,9 @@ Servo fanServoL; // pin 33
 Servo fanServoR; // pin 35  
 
 int SPINNING_SPEED = 80; // 90 to stop, 0 fastest
-int servoTopPos = 125;
-int servoBottomPos = 40;
-int servoPos = servoTopPos;
+int SERVO_TOP_POS = 120;
+int SERVO_BOTTOM_POS = 40;
+int servoPos = SERVO_TOP_POS;
 int SERVO_DRYING_REPS = 3;
 int servoDryingCount;
 int lServoDir = 0; // start with top down 
@@ -54,8 +54,7 @@ void fanServoStart() {
 
 bool moveLeftServoInSteps() {
   if (lServoDir == 0){ // blowing from top to bottom
-    if (servoPos == servoTopPos){
-      
+    if (servoPos == SERVO_TOP_POS){
       if (servoMicroSteps > 500) {
         // delay is complete, start moving down
         servoPos--; 
@@ -71,16 +70,17 @@ bool moveLeftServoInSteps() {
       servoMicroSteps++;
     }
     
-    if (servoPos == servoBottomPos) {
+    if (servoPos == SERVO_BOTTOM_POS) {
       servoDryingCount++;
       if (servoDryingCount < SERVO_DRYING_REPS){
         lServoDir = 1;
+        stopOuterFans(); // stop fans when moving up
       } else{
         return true; // servo algo is complete
       }
     }
   } else { // blowing bottom to top. lServoDir == 1
-    if (servoPos == servoBottomPos){
+    if (servoPos == SERVO_BOTTOM_POS){
       
       if (servoMicroSteps > 500) {
         // delay is complete, start moving up
@@ -93,9 +93,62 @@ bool moveLeftServoInSteps() {
       servoPos++;
     }
 
-    if (servoPos == servoTopPos) {
-      lServoDir = 0; // if on top, must go down
+    if (servoPos == SERVO_TOP_POS) {
+      lServoDir = 0; // change direction to move down
+      startOuterFans(); // start fans when moving down
       
+    }
+  }
+  return false;
+}
+
+bool moveFanServoInSteps() {
+  if (lServoDir == 0){ // blowing from top to bottom
+    if (servoPos == SERVO_TOP_POS){
+      
+      if (servoMicroSteps > 500) {
+        // delay is complete, start moving down
+        servoPos--; 
+        servoMicroSteps = 0;
+      } 
+      servoMicroSteps++;
+    } else if (servoMicroSteps == 20 ){
+      
+      servoMicroSteps=0; // reset to 0
+      fanServoL.write(servoPos); // change angle of servo
+      fanServoR.write(servoPos); // change angle of servo
+      servoPos = servoPos-1;
+    } else {
+      servoMicroSteps++;
+    }
+    
+    if (servoPos == SERVO_BOTTOM_POS) {
+      servoDryingCount++;
+      if (servoDryingCount < SERVO_DRYING_REPS){
+        lServoDir = 1;
+        stopOuterFans(); // stop fans when moving up
+      } else{
+        return true; // servo algo is complete
+      }
+    }
+  } else { // blowing bottom to top. lServoDir == 1
+    if (servoPos == SERVO_BOTTOM_POS){
+      
+      if (servoMicroSteps > 500) {
+        // delay is complete, start moving up
+        servoPos++; 
+        servoMicroSteps = 0;
+      }
+      servoMicroSteps++;
+    } else {
+      fanServoL.write(servoPos);
+      fanServoR.write(servoPos);
+      servoPos++;
+    }
+
+    if (servoPos == SERVO_TOP_POS) {
+      lServoDir = 0; // change direction to move down
+      startOuterFans(); // start fans when moving down
     }
   }
   return false;

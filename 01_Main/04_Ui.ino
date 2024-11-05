@@ -67,6 +67,4 @@ void ledOff() {
   digitalWrite(BUTTON_LED_PIN, LOW);
 }
 
-// void blinky() {
-  
-// }
+
