@@ -1,9 +1,9 @@
 // Nano pin 0(Rx) - Mega Pin 43 (Tx)
 // Nano pin 1(Tx) - Mega Pin 41 (Rx)
 
-const int bluePin = 9;
-const int redPin = 10;
-const int greenPin = 11;
+const int redPin = 9;
+const int greenPin = 10;
+const int bluePin = 11;
 int ledState = 1;
 unsigned long currentMillis;
 
