@@ -5,11 +5,15 @@
 void executeState1() {
   ledStandbyMode();
   executeInitialisation();
-  // cupServoStart();
+  moveLeftFanStepperMotorUp();
+  moveRightFanStepperMotorUp();
+  // moveRailStepperMotorForward();
+  // moveFanStepperMotorsUp();
+  
 
   // executeMoveToDryingCompartment();
   // ledWashMode();
-  // delay(8000);
+  // cupServoStart();
   // ledStandbyMode();
   // ledDryMode();
   // executeSetupDryingPhase();
@@ -17,10 +21,13 @@ void executeState1() {
   // ledCompleteMode();
   // executeEndDryingPhase();
 
+  // startOuterFans();
+  // startInnerFans();
+  // fanServoL.write(0);
+  // fanServoR.write(0);
+  // delay(5000);
   // moveLeftServoInSteps();
   // moveLeftFanStepperMotorDown();
-  startInnerFans();
-  // startOuterFans();
   // executeDryingOnly();
 }
 
@@ -185,8 +192,8 @@ void executeDryingPhase() {
   digitalWrite(R_FAN_SLEEP_PIN, HIGH); // Activate right stepper motor
   while (!servoDone || !stepperDone) {
     if (!stepperDone) {
-      // stepperDone = moveLeftStepperInSteps();
-      stepperDone = moveFanStepperInSteps();
+      stepperDone = moveLeftStepperInSteps();
+      // stepperDone = moveFanStepperInSteps();
     }
     if (!servoDone) {
       servoDone = moveLeftServoInSteps();
