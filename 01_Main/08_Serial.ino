@@ -1,5 +1,7 @@
 // Set up SoftwareSerial on pins 10 and 11
-SoftwareSerial mySerial(41, 43); // RX, TX
+// Nano pin 0(Rx) - Mega Pin 43 (Tx)
+// Nano pin 1(Tx) - Mega Pin 41 (Rx)
+SoftwareSerial mySerial(41, 43); // RX, TX 
 
 void setupSerial() {
   // Initialize SoftwareSerial at 9600 bps for communication with the Nano
