@@ -5,17 +5,22 @@
 void executeState1() {
   ledStandbyMode();
   executeInitialisation();
-  ledWashMode();
-  delay(5000);
-  ledDryMode();
-  executeSetupDryingPhase();
-  ledCompleteMode();
+  // cupServoStart();
+
+  // executeMoveToDryingCompartment();
+  // ledWashMode();
+  // delay(8000);
+  // ledStandbyMode();
+  // ledDryMode();
+  // executeSetupDryingPhase();
   // executeDryingPhase();
+  // ledCompleteMode();
   // executeEndDryingPhase();
 
   // moveLeftServoInSteps();
   // moveLeftFanStepperMotorDown();
-
+  startInnerFans();
+  // startOuterFans();
   // executeDryingOnly();
 }
 
@@ -151,15 +156,18 @@ void executeMoveToDryingCompartment() {
 // Set up drying phase
 void executeSetupDryingPhase() {
   Serial.println("STATE - Set Up Drying Phase");
-  // Serial.println("Fan stepper move up");
+
+  // move the 2 fan servos to the starting position
   fanServoL.write(SERVO_TOP_POS);
   fanServoR.write(SERVO_TOP_POS);
-  // moveLeftFanStepperMotorUp();
-  // moveRightFanStepperMotorUp();
+
+  // move fan stepper motors into the right position
   moveFanStepperMotorsUp();
-  // startInnerFans();
-  // startOuterFans();
-  delay(1000); 
+
+  // activate the fans 
+  startInnerFans();
+  startOuterFans();
+  delay(1000); // delay for fans to start up
 
   // Serial.println("Cup Servo start spinning");
   cupServoStart();
@@ -173,8 +181,8 @@ void executeDryingPhase() {
   // continuously loop until all done
   bool servoDone = false;
   bool stepperDone = false;
-  digitalWrite(L_FAN_SLEEP_PIN, HIGH);
-  digitalWrite(R_FAN_SLEEP_PIN, HIGH);
+  digitalWrite(L_FAN_SLEEP_PIN, HIGH); // Activate left stepper motor
+  digitalWrite(R_FAN_SLEEP_PIN, HIGH); // Activate right stepper motor
   while (!servoDone || !stepperDone) {
     if (!stepperDone) {
       // stepperDone = moveLeftStepperInSteps();

@@ -12,22 +12,20 @@ void setupFanRelay() {
 
 void startInnerFans() {
   digitalWrite(L_INNER_FAN_PIN, HIGH);
-  // digitalWrite(R_INNER_FAN_PIN, HIGH); 
+  digitalWrite(R_INNER_FAN_PIN, HIGH); 
 }
 
 void stopInnerFans() {
   digitalWrite(L_INNER_FAN_PIN, LOW);
-  // digitalWrite(R_INNER_FAN_PIN, LOW); 
+  digitalWrite(R_INNER_FAN_PIN, LOW); 
 }
 
 void startOuterFans() {
-  digitalWrite(L_INNER_FAN_PIN, HIGH);
-  // digitalWrite(R_INNER_FAN_PIN, HIGH);
   digitalWrite(L_OUTER_FAN_PIN, HIGH);
-  // digitalWrite(R_OUTER_FAN_PIN, HIGH);
+  digitalWrite(R_OUTER_FAN_PIN, HIGH);
 }
 
 void stopOuterFans() {
   digitalWrite(L_OUTER_FAN_PIN, LOW);
-  // digitalWrite(R_OUTER_FAN_PIN, LOW); 
+  digitalWrite(R_OUTER_FAN_PIN, LOW); 
 }

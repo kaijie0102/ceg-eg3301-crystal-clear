@@ -3,7 +3,10 @@ Servo cupServoR;  // pin 4 create continuous servo object
 Servo fanServoL; // pin 33
 Servo fanServoR; // pin 35  
 
+// settings for the 360 deg cup servo motors
 int SPINNING_SPEED = 80; // 90 to stop, 0 fastest
+
+// settings for the fan servo motors
 int SERVO_TOP_POS = 120;
 int SERVO_BOTTOM_POS = 40;
 int servoPos = SERVO_TOP_POS;
@@ -11,7 +14,6 @@ int SERVO_DRYING_REPS = 3;
 int servoDryingCount;
 int lServoDir = 0; // start with top down 
 int servoMicroSteps = 0; // every servoMicroSteps, +1 to servoPos, and change angle 
-
 int done = 0; 
 
 void setupServoMotor() {
@@ -23,18 +25,16 @@ void setupServoMotor() {
 }
 
 void cupServoStart(){
-  for (int i=0; i<=SPINNING_SPEED; i+=10) {
+  for (int i=0; i<SPINNING_SPEED; i+=10) { // slowly go from 0 to 80
+    cupServoR.write(i); 
     cupServoL.write(i); 
     delay(200);
-  }
-  // cupServoL.write(SPINNING_SPEED); 
-  // cupServoR.write(SPINNING_SPEED); 
-  
+  }  
 }
 
 void cupServoStop(){
   cupServoL.write(90);
-  // cupServoR.write(90);
+  cupServoR.write(90);
 }
 
 void fanServoStart() {

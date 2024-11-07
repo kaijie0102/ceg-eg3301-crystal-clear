@@ -11,7 +11,7 @@
 #define L_CUPSERVO_PIN 15 // Label: Cup Servo 1
 #define R_CUPSERVO_PIN 14 // Label: Fan Servo 2
 
-// Steppers
+// Stepper motors
 #define RAIL_DIR_PIN 21
 #define RAIL_STEP_PIN 20
 #define RAIL_SLEEP_PIN 19
@@ -23,10 +23,12 @@
 #define R_FAN_SLEEP_PIN 7
 
 // Fans
-#define L_INNER_FAN_PIN 23 // relay for inner fan
-#define R_INNER_FAN_PIN 27 // relay for inner fan
-#define L_OUTER_FAN_PIN 39 // relay for fan
-#define R_OUTER_FAN_PIN 49 // relay 2 for fan
+#define L_INNER_FAN_PIN 23 // relay for left inner fan
+#define R_INNER_FAN_PIN 27 // relay for right inner fan
+#define L_OUTER_FAN_PIN 39 // relay for left outer fan
+#define R_OUTER_FAN_PIN 49 // relay for right outer fan
+
+// Fan servo motors
 #define L_FANSERVO_PIN A1 // Label: Fan Servo 1
 #define R_FANSERVO_PIN A0 // Label: Fan Servo 2
 
@@ -141,10 +143,10 @@ void loop() {
 // Function to handle the logic for each state
 void handleState() {
   switch (currentState) {
-    case STATE_1: // Start and setup
+    case STATE_1: 
       executeState1();
       break;
-    case STATE_2: // 
+    case STATE_2:  
       executeState2();
       break;
     case STATE_3:
@@ -155,21 +157,8 @@ void handleState() {
       break;
     case STATE_5:
       executeTeardown();
-      // Handle logic for STATE_15
-      // currentState = STATE_15;  // Reset to initial state
-      break;
-    case STATE_6:
-      // Handle logic for STATE_15
-      currentState = STATE_15;  // Reset to initial state
-      break;
-    case STATE_7:
-      // Handle logic for STATE_15
-      // Additional code here
-      currentState = STATE_15;  // Reset to initial state
       break;
     case STATE_15:
-      // Handle logic for STATE_15
-      // Additional code here
       currentState = STATE_15;  // Reset to initial state
       break;
     default:
@@ -182,7 +171,7 @@ void handleState() {
 
 // Function to change the state
 void changeState() {
-  // Cycle through states: STATE_1 -> STATE_2 -> STATE_3 -> ... -> STATE_15 -> STATE_1
+  // Cycle through states: STATE_1 -> STATE_2 -> STATE_3 -> STATE_1
   switch (currentState) {
     case STATE_1:
       // currentState = STATE_2;
@@ -198,33 +187,6 @@ void changeState() {
       currentState = STATE_5;
       break;
     case STATE_5:
-      currentState = STATE_6;
-      break;
-    case STATE_6:
-      currentState = STATE_7;
-      break;
-    case STATE_7:
-      currentState = STATE_8;
-      break;
-    case STATE_8:
-      currentState = STATE_9;
-      break;
-    case STATE_9:
-      currentState = STATE_10;
-      break;
-    case STATE_10:
-      currentState = STATE_11;
-      break;
-    case STATE_11:
-      currentState = STATE_12;
-      break;
-    case STATE_12:
-      currentState = STATE_13;
-      break;
-    case STATE_13:
-      currentState = STATE_14;
-      break;
-    case STATE_14:
       currentState = STATE_15;
       break;
     case STATE_15:
