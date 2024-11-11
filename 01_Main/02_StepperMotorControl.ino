@@ -4,10 +4,10 @@ const int CUP_HEIGHT = 4400; // og: 4400
 int stepperStepCount = CUP_HEIGHT+1;
 int lStepperDir = 0; // 0 to go down, 1 to go up
 int stepperCycleRepCount = 0; // current up-down cycle count
-int STEPPER_CYCLE_REPS = 2; // total number of up-down cycles
+int STEPPER_CYCLE_REPS = 3; // total number of up-down cycles
 
 int STEPPER_DOWN_BURST = 1; // how many steps to move in one go
-int STEPPER_DOWN_DELAY = 3500; // how many microseconds per step
+int STEPPER_DOWN_DELAY = 4000; // how many microseconds per step
 
 int STEPPER_UP_BURST = 10;
 int STEPPER_UP_DELAY = 1000; // how many microseconds per step
@@ -19,6 +19,7 @@ void setupRailStepperMotor() {
   pinMode(RAIL_DIR_PIN, OUTPUT);
   pinMode(RAIL_STEP_PIN, OUTPUT);
   pinMode(RAIL_SLEEP_PIN, OUTPUT);
+  digitalWrite(RAIL_SLEEP_PIN, HIGH);
 }
 
 void setupFanStepperMotor() {
@@ -33,7 +34,7 @@ void setupFanStepperMotor() {
 
 void moveRailStepperMotorBackwards() {
   digitalWrite(RAIL_DIR_PIN, LOW);
-  digitalWrite(RAIL_SLEEP_PIN, HIGH);
+  
   for(int x = 0; x < RAIL_LENGTH; x++)
 	{
 		digitalWrite(RAIL_STEP_PIN, HIGH);
@@ -41,12 +42,12 @@ void moveRailStepperMotorBackwards() {
 		digitalWrite(RAIL_STEP_PIN, LOW);
 		delayMicroseconds(2000);
 	}
-  digitalWrite(RAIL_SLEEP_PIN, LOW);
+  // digitalWrite(RAIL_SLEEP_PIN, LOW);
 }
 
 void moveRailStepperMotorForward() {
   digitalWrite(RAIL_DIR_PIN, HIGH);
-  digitalWrite(RAIL_SLEEP_PIN, HIGH);
+  // digitalWrite(RAIL_SLEEP_PIN, HIGH);
   for(int x = 0; x < RAIL_LENGTH; x++)
 	{
 		digitalWrite(RAIL_STEP_PIN, HIGH);
@@ -54,7 +55,7 @@ void moveRailStepperMotorForward() {
 		digitalWrite(RAIL_STEP_PIN, LOW);
 		delayMicroseconds(2000);
 	}
-  digitalWrite(RAIL_SLEEP_PIN, LOW);
+  // digitalWrite(RAIL_SLEEP_PIN, LOW);
 
 }
 
@@ -99,6 +100,7 @@ void moveFanStepperMotorsUp() {
 		digitalWrite(R_FAN_STEP_PIN, LOW);
 		delayMicroseconds(2000);
 	}
+  digitalWrite(L_FAN_SLEEP_PIN, LOW);
   digitalWrite(R_FAN_SLEEP_PIN, LOW);
 }
 

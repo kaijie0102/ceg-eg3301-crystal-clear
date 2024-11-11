@@ -7,8 +7,8 @@ Servo fanServoR; // pin 35
 int SPINNING_SPEED = 80; // 90 to stop, 0 fastest
 
 // settings for the fan servo motors
-int SERVO_TOP_POS = 120;
-int SERVO_BOTTOM_POS = 40;
+int SERVO_TOP_POS = 110;
+int SERVO_BOTTOM_POS = 33;
 int servoPos = SERVO_TOP_POS;
 int SERVO_DRYING_REPS = 3;
 int servoDryingCount;
@@ -25,6 +25,7 @@ void setupServoMotor() {
 }
 
 void cupServoStart(){
+  Serial.println("Cup Servo Spin");
   for (int i=0; i<SPINNING_SPEED; i+=10) { // slowly go from 0 to 80
     cupServoR.write(i); 
     cupServoL.write(i); 
@@ -116,7 +117,7 @@ bool moveFanServoInSteps() {
       
       servoMicroSteps=0; // reset to 0
       fanServoL.write(servoPos); // change angle of servo
-      fanServoR.write(servoPos); // change angle of servo
+      fanServoR.write(abs(servoPos-190)); // change angle of servo
       servoPos = servoPos-1;
     } else {
       servoMicroSteps++;
@@ -142,7 +143,7 @@ bool moveFanServoInSteps() {
       servoMicroSteps++;
     } else {
       fanServoL.write(servoPos);
-      fanServoR.write(servoPos);
+      fanServoR.write(abs(servoPos-190));
       servoPos++;
     }
 

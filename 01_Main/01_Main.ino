@@ -23,10 +23,10 @@
 #define R_FAN_SLEEP_PIN 7
 
 // Fans
-#define L_INNER_FAN_PIN 23 // relay for left inner fan
-#define R_INNER_FAN_PIN 27 // relay for right inner fan
-#define L_OUTER_FAN_PIN 39 // relay for left outer fan
-#define R_OUTER_FAN_PIN 49 // relay for right outer fan
+#define L_INNER_FAN_PIN 39// 23 // relay for left inner fan
+#define R_INNER_FAN_PIN 49//27 // relay for right inner fan
+#define L_OUTER_FAN_PIN 23//39 // relay for left outer fan
+#define R_OUTER_FAN_PIN 27//49 // relay for right outer fan
 
 // Fan servo motors
 #define L_FANSERVO_PIN A1 // Label: Fan Servo 1
@@ -126,13 +126,14 @@ void setup() {
   setupSolenoidValve();
   setupUi(); 
   setupSerial();
-  
   // Initialize the serial port:
   Serial.begin(9600);
 
   Serial.println();
   Serial.println("===============");
   Serial.println("Set up complete");
+
+
 }
 
 void loop() {
@@ -174,8 +175,7 @@ void changeState() {
   // Cycle through states: STATE_1 -> STATE_2 -> STATE_3 -> STATE_1
   switch (currentState) {
     case STATE_1:
-      // currentState = STATE_2;
-      currentState = STATE_1;
+      currentState = STATE_2;
       break;
     case STATE_2:
       currentState = STATE_3;
@@ -184,9 +184,6 @@ void changeState() {
       currentState = STATE_4;
       break;
     case STATE_4:
-      currentState = STATE_5;
-      break;
-    case STATE_5:
       currentState = STATE_15;
       break;
     case STATE_15:
